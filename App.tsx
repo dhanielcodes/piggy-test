@@ -20,6 +20,7 @@ import TrendIcon from '@src/assets/icons/tabIcons/TrendIcon';
 import OrderIcon from '@src/assets/icons/tabIcons/OrderIcon';
 import ProfileIcon from '@src/assets/icons/tabIcons/ProfileIcon';
 import HomeIcon from '@src/assets/icons/tabIcons/HomeIcon';
+import {MainProvider} from '@src/context/global.context';
 
 //import Home from 'src/pages/Home';
 
@@ -44,113 +45,126 @@ interface User {
 function App(): React.JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
-      <NavigationContainer>
-        <MainStack.Navigator
-          screenOptions={{
-            tabBarStyle: {
-              height: screenHeight(0.097),
-              paddingTop: screenHeight(0.02),
-            },
-          }}>
-          <MainStack.Screen
-            name="Home"
-            component={Home}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({focused}: User) => (
-                <HomeIcon color={focused ? '#12AF37' : Colors.DEFAULT_GREY} />
-              ),
-              tabBarLabel: ({focused}: User) => (
-                <Text
-                  style={{
-                    fontSize: screenWidth(0.031),
-                    color: focused ? '#12AF37' : Colors.DEFAULT_GREY,
-                  }}>
-                  Home
-                </Text>
-              ),
-            }}
-          />
-          <MainStack.Screen
-            name="Search"
-            component={Search}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({focused}: User) => (
-                <SearchIcon color={focused ? '#12AF37' : Colors.DEFAULT_GREY} />
-              ),
-              tabBarLabel: ({focused}: User) => (
-                <Text
-                  style={{
-                    fontSize: screenWidth(0.031),
-                    color: focused ? '#12AF37' : Colors.DEFAULT_GREY,
-                  }}>
-                  Search
-                </Text>
-              ),
-            }}
-          />
-          <MainStack.Screen
-            name="Trend"
-            component={Trend}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({focused}: User) => (
-                <TrendIcon color={focused ? '#12AF37' : Colors.DEFAULT_GREY} />
-              ),
-              tabBarLabel: ({focused}: User) => (
-                <Text
-                  style={{
-                    fontSize: screenWidth(0.031),
-                    color: focused ? '#12AF37' : Colors.DEFAULT_GREY,
-                  }}>
-                  Trend
-                </Text>
-              ),
-            }}
-          />
-          <MainStack.Screen
-            name="Order"
-            component={Order}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({focused}: User) => (
-                <OrderIcon color={focused ? '#12AF37' : Colors.DEFAULT_GREY} />
-              ),
-              tabBarLabel: ({focused}: User) => (
-                <Text
-                  style={{
-                    fontSize: screenWidth(0.031),
-                    color: focused ? '#12AF37' : Colors.DEFAULT_GREY,
-                  }}>
-                  Order
-                </Text>
-              ),
-            }}
-          />
-          <MainStack.Screen
-            name="Profile"
-            component={Profile}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({focused}: User) => (
-                <ProfileIcon
-                  color={focused ? '#12AF37' : Colors.DEFAULT_GREY}
-                />
-              ),
-              tabBarLabel: ({focused}: User) => (
-                <Text
-                  style={{
-                    fontSize: screenWidth(0.031),
-                    color: focused ? '#12AF37' : Colors.DEFAULT_GREY,
-                  }}>
-                  Profile
-                </Text>
-              ),
-            }}
-          />
-        </MainStack.Navigator>
-      </NavigationContainer>
+      <MainProvider>
+        <NavigationContainer>
+          <MainStack.Navigator
+            screenOptions={{
+              tabBarStyle: {
+                height: screenHeight(0.097),
+                paddingTop: screenHeight(0.02),
+              },
+            }}>
+            <MainStack.Screen
+              name="Home"
+              component={Home}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({focused}: User) => (
+                  <HomeIcon color={focused ? '#12AF37' : Colors.DEFAULT_GREY} />
+                ),
+                tabBarLabel: ({focused}: User) => (
+                  <Text
+                    style={{
+                      fontSize: screenWidth(0.031),
+                      color: focused ? '#12AF37' : Colors.DEFAULT_GREY,
+                      fontFamily: 'Poppins-Medium',
+                    }}>
+                    Home
+                  </Text>
+                ),
+              }}
+            />
+            <MainStack.Screen
+              name="Search"
+              component={Search}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({focused}: User) => (
+                  <SearchIcon
+                    color={focused ? '#12AF37' : Colors.DEFAULT_GREY}
+                  />
+                ),
+                tabBarLabel: ({focused}: User) => (
+                  <Text
+                    style={{
+                      fontSize: screenWidth(0.031),
+                      color: focused ? '#12AF37' : Colors.DEFAULT_GREY,
+                      fontFamily: 'Poppins-Medium',
+                    }}>
+                    Search
+                  </Text>
+                ),
+              }}
+            />
+            <MainStack.Screen
+              name="Trend"
+              component={Trend}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({focused}: User) => (
+                  <TrendIcon
+                    color={focused ? '#12AF37' : Colors.DEFAULT_GREY}
+                  />
+                ),
+                tabBarLabel: ({focused}: User) => (
+                  <Text
+                    style={{
+                      fontSize: screenWidth(0.031),
+                      color: focused ? '#12AF37' : Colors.DEFAULT_GREY,
+                      fontFamily: 'Poppins-Medium',
+                    }}>
+                    Trend
+                  </Text>
+                ),
+              }}
+            />
+            <MainStack.Screen
+              name="Order"
+              component={Order}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({focused}: User) => (
+                  <OrderIcon
+                    color={focused ? '#12AF37' : Colors.DEFAULT_GREY}
+                  />
+                ),
+                tabBarLabel: ({focused}: User) => (
+                  <Text
+                    style={{
+                      fontSize: screenWidth(0.031),
+                      color: focused ? '#12AF37' : Colors.DEFAULT_GREY,
+                      fontFamily: 'Poppins-Medium',
+                    }}>
+                    Order
+                  </Text>
+                ),
+              }}
+            />
+            <MainStack.Screen
+              name="Profile"
+              component={Profile}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({focused}: User) => (
+                  <ProfileIcon
+                    color={focused ? '#12AF37' : Colors.DEFAULT_GREY}
+                  />
+                ),
+                tabBarLabel: ({focused}: User) => (
+                  <Text
+                    style={{
+                      fontSize: screenWidth(0.031),
+                      color: focused ? '#12AF37' : Colors.DEFAULT_GREY,
+                      fontFamily: 'Poppins-Medium',
+                    }}>
+                    Profile
+                  </Text>
+                ),
+              }}
+            />
+          </MainStack.Navigator>
+        </NavigationContainer>
+      </MainProvider>
     </QueryClientProvider>
   );
 }

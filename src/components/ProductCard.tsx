@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, StyleSheet, Image} from 'react-native';
 import React from 'react';
 import Colors from '../config/Colors';
-import {screenWidth} from '../utils/Sizes';
+import {screenHeight, screenWidth} from '../utils/Sizes';
 import AddIcon from '../assets/icons/AddIcon';
 
 interface ItemCard {
@@ -22,24 +23,19 @@ export default function ProductCard({
     <View style={styles.card}>
       <Image
         source={{
-          uri: image,
+          uri: 'https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg',
         }}
         style={{
-          width: '42%',
+          width: '100%',
           borderRadius: 10,
-          height: '42%',
+          height: screenHeight(0.2),
+          borderWidth: 1,
+          borderColor: Colors.DEFAULT_GREY,
         }}
       />
-      <Text style={styles.text}>
-        {title?.length > 19 ? `${title?.slice(0, 19)}...` : title}
-      </Text>
-      <Text style={styles.textDescription}>
-        {desc?.length > 23 ? `${desc?.slice(0, 23)}...` : desc}
-      </Text>
-      <Text style={styles.textPrice}>#{amount}</Text>
-      <View style={styles.plus}>
-        <AddIcon />
-      </View>
+      <Text style={styles.text}>Restaurant Name</Text>
+      <Text style={styles.textDescription}>Classic 1 0 1</Text>
+      <Text style={styles.textPrice}># 4000</Text>
     </View>
   );
 }
@@ -48,11 +44,11 @@ const styles = StyleSheet.create({
   card: {
     borderWidth: 1,
     borderRadius: 16,
-    width: '100%',
-    height: '100%',
-    padding: 20,
-    alignItems: 'center',
+    width: screenWidth(0.7),
+    height: screenWidth(0.7),
+    padding: screenWidth(0.04),
     borderColor: '#E2E2E2',
+    marginRight: 20,
   },
   text: {
     fontFamily: 'Poppins-Medium',
