@@ -21,7 +21,8 @@ DerivedData
 *.ipa
 *.xcuserstate
 **/.xcode.env.local
-
+.yarn
+.env
 # Android/IntelliJ
 #
 build/
