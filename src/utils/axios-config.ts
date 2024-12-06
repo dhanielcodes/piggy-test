@@ -1,11 +1,14 @@
 import axios from 'axios';
-import { API_URL } from '@env';
+import { API_HOST, API_KEY, API_URL } from '@env';
 
 export const Axios = axios.create({
   baseURL: API_URL,
 });
 
 Axios.interceptors.request.use((config) => {
+  config.headers['x-rapidapi-key'] = API_KEY;
+  config.headers['x-rapidapi-host'] = API_HOST;
+  config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
   return config;
 });
 

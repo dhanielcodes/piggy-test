@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, {useContext, useEffect, useState} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -20,11 +21,14 @@ import SearchIcon from '@src/assets/icons/SearchIcon';
 import {screenHeight, screenWidth} from '@src/utils/Sizes';
 import SettingsIcon from '@src/assets/icons/SettingsIcon';
 import ProductCard from '@src/components/ProductCard';
+import MainContext, {ContextType} from '@src/context/global.context';
 
 function Home(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const [history, setHistory] = useState<any>([]);
+
+  const {name} = useContext<ContextType>(MainContext);
 
   const getHistory = () => {
     getDataObject('history').then(val => {
@@ -78,7 +82,7 @@ function Home(): React.JSX.Element {
           <SettingsIcon />
         </View>
         <View style={styles.searchTop}>
-          <Text style={styles.searchText}>Search History</Text>
+          <Text style={styles.searchText}>Search history</Text>
           <TouchableOpacity
             onPress={() => {
               storeDataObject('history', []);

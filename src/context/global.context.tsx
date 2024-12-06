@@ -6,8 +6,9 @@ import {getDataObject, storeDataObject} from '@src/storage';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 
-type ContextType = {
+export type ContextType = {
   lastData?: any;
+  name?: any;
 } | null;
 
 interface Context {
@@ -24,7 +25,8 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
     onSuccess: (data?: any) => {
       console.log(data, 'dataaa');
     },
-    onError: () => {
+    onError: error => {
+      console.log(error, 'errorerror');
       return;
     },
   });
@@ -55,6 +57,7 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
     <MainContext.Provider
       value={{
         lastData,
+        name: 'Daniel',
       }}>
       {children}
     </MainContext.Provider>
