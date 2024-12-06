@@ -9,7 +9,7 @@ export const ApiService = {
     }, */
 
     GetRestaurantsMutation: async (body?:any) => {
-        const { data } = await Axios.post('merchant/business?language=en_US&location_id=297704&currency=USD&offset=0', body);
+        const { data } = await Axios.post('search?language=en_US&location_id=297704&currency=USD&offset=0', body);
         return data;
     },
 };
