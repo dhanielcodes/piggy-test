@@ -6,7 +6,7 @@ import {
   Text,
   useColorScheme,
 } from 'react-native';
-import Colors from 'src/config/Colors';
+import Colors from '@src/config/Colors';
 
 function Trend(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';

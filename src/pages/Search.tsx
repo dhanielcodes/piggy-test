@@ -14,15 +14,15 @@ import {RefetchOptions, useQuery} from '@tanstack/react-query';
 
 import * as Yup from 'yup';
 import {useFormik} from 'formik';
-import Colors from 'src/config/Colors';
-import {getDataObject, storeDataObject} from 'src/storage';
-import {ApiService} from 'src/service';
-import FormInput from 'src/components/FormInput';
-import SearchIcon from 'assets/icons/SearchIcon';
-import {screenHeight, screenWidth} from 'src/utils/Sizes';
-import SettingsIcon from 'assets/icons/SettingsIcon';
-import ItemCard from 'src/components/ItemCard';
-import ProductCard from 'src/components/ProductCard';
+import Colors from '@src/config/Colors';
+import {getDataObject, storeDataObject} from '@src/storage';
+import {ApiService} from '@src/service';
+import FormInput from '@src/components/FormInput';
+import SearchIcon from '@src/assets/icons/SearchIcon';
+import {screenHeight, screenWidth} from '@src/utils/Sizes';
+import SettingsIcon from '@src/assets/icons/SettingsIcon';
+import ItemCard from '@src/components/ItemCard';
+import ProductCard from '@src/components/ProductCard';
 
 function Search(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';

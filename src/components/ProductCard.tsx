@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import React from 'react';
 import Colors from '../config/Colors';
 import {screenWidth} from '../utils/Sizes';
-import AddIcon from '../../assets/icons/AddIcon';
+import AddIcon from '../assets/icons/AddIcon';
 
 interface ItemCard {
   title?: any;

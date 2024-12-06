@@ -7,19 +7,21 @@ import {Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import {MainStackParamList} from 'src/types/navigation';
-import {screenHeight, screenWidth} from 'src/utils/Sizes';
-import Home from 'src/pages/Home';
-import HomeIcon from 'assets/icons/tabIcons/HomeIcon';
-import Colors from 'src/config/Colors';
-import Search from 'src/pages/Search';
-import SearchIcon from 'assets/icons/tabIcons/SearchIcon';
-import Trend from 'src/pages/Trend';
-import TrendIcon from 'assets/icons/tabIcons/TrendIcon';
-import Order from 'src/pages/Order';
-import OrderIcon from 'assets/icons/tabIcons/OrderIcon';
-import Profile from 'src/pages/Profile';
-import ProfileIcon from 'assets/icons/tabIcons/ProfileIcon';
+import Search from '@src/pages/Search';
+import Home from '@src/pages/Home';
+import Trend from '@src/pages/Trend';
+import Order from '@src/pages/Order';
+import Profile from '@src/pages/Profile';
+import {MainStackParamList} from '@src/types/navigation';
+import Colors from '@src/config/Colors';
+import {screenHeight, screenWidth} from '@src/utils/Sizes';
+import SearchIcon from '@src/assets/icons/tabIcons/SearchIcon';
+import TrendIcon from '@src/assets/icons/tabIcons/TrendIcon';
+import OrderIcon from '@src/assets/icons/tabIcons/OrderIcon';
+import ProfileIcon from '@src/assets/icons/tabIcons/ProfileIcon';
+import HomeIcon from '@src/assets/icons/tabIcons/HomeIcon';
+
+//import Home from 'src/pages/Home';
 
 const queryClient = new QueryClient({
   defaultOptions: {

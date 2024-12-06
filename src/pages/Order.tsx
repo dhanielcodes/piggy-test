@@ -7,7 +7,7 @@ import {
   useColorScheme,
 } from 'react-native';
 
-import Colors from '../config/Colors';
+import Colors from '@src/config/Colors';
 
 function Order(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';

@@ -1,3 +1,4 @@
+import Colors from '@src/config/Colors';
 import React from 'react';
 import {
   SafeAreaView,
@@ -6,7 +7,6 @@ import {
   Text,
   useColorScheme,
 } from 'react-native';
-import Colors from 'src/config/Colors';
 
 function Home(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
