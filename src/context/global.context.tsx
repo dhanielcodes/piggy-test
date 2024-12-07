@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {ApiService} from '@src/service';
@@ -20,21 +19,10 @@ const MainContext = createContext<ContextType>(null);
 export const MainProvider: React.FC<Context> = ({children}: Context) => {
   // Use this type in your state initialization
 
-  const {mutate, isPending, data} = useMutation({
-    mutationFn: ApiService.GetRestaurantsMutation,
-    onSuccess: (data?: any) => {
-      console.log(data, 'dataaa');
-    },
-    onError: error => {
-      console.log(error, 'errorerror');
-      return;
-    },
+  const {data, isLoading, refetch, isFetching, error} = useQuery({
+    queryKey: ['GetRestaurantsQuery'],
+    queryFn: () => ApiService.GetRestaurantsQuery(),
   });
-  useEffect(() => {
-    mutate({});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const [lastData, setLastData] = useState([]);
 
   const getLastData = () => {
@@ -49,6 +37,7 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
   useEffect(() => {
     getLastData();
   }, []);
+  console.log(data, error?.response, 'datatata');
   useEffect(() => {
     storeDataObject('restaurants', data);
   }, [data]);

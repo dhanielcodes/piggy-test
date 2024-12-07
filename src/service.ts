@@ -3,13 +3,8 @@ import { Axios } from './utils/axios-config';
 
 export const ApiService = {
 
-  /*   GetProductsQuery: async (payload?:string) => {
-        const { data } = await Axios.get(`products${payload ? payload : ''}`);
-        return data;
-    }, */
-
-    GetRestaurantsMutation: async (body?:any) => {
-        const { data } = await Axios.post('search?language=en_US&location_id=297704&currency=USD&offset=0', body);
+    GetRestaurantsQuery: async () => {
+        const { data } = await Axios.get('restaurants');
         return data;
     },
 };
