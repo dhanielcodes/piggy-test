@@ -27,8 +27,7 @@ interface FormInputProps {
   IconRight?: React.FC<{width: string; height: string}>;
   IconLeft?: React.FC<{width: string; height: string}>;
   hint?: string;
-  onPressRight?: () => void;
-  onPressLeft?: () => void;
+  handleSubmit?: () => void;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -46,8 +45,7 @@ const FormInput: React.FC<FormInputProps> = ({
   IconRight,
   IconLeft,
   hint,
-  onPressLeft,
-  onPressRight,
+  handleSubmit,
 }) => {
   return (
     <View>
@@ -61,9 +59,7 @@ const FormInput: React.FC<FormInputProps> = ({
           {width: width, borderColor: '#EFEFEF', backgroundColor: background},
         ]}>
         {IconLeft && (
-          <TouchableOpacity
-            onPress={onPressLeft}
-            style={{paddingLeft: screenWidth(0.035)}}>
+          <TouchableOpacity style={{paddingLeft: screenWidth(0.035)}}>
             <IconLeft width="20px" height="20px" />
           </TouchableOpacity>
         )}
@@ -77,11 +73,10 @@ const FormInput: React.FC<FormInputProps> = ({
           onChangeText={formik?.handleChange(name)}
           value={formik?.values?.[name]}
           maxLength={max}
+          onSubmitEditing={handleSubmit}
         />
         {IconRight && (
-          <TouchableOpacity
-            onPress={onPressRight}
-            style={{paddingRight: screenWidth(0.035)}}>
+          <TouchableOpacity style={{paddingRight: screenWidth(0.035)}}>
             <IconRight width="20px" height="20px" />
           </TouchableOpacity>
         )}

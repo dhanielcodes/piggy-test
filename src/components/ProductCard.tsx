@@ -1,29 +1,30 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Colors from '../config/Colors';
 import {screenHeight, screenWidth} from '../utils/Sizes';
 import AddIcon from '../assets/icons/AddIcon';
+import {RestaurantSchema} from '@src/types/restaurant';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {MainStackParamList} from '@src/types/navigation';
 
-interface ItemCard {
-  title?: any;
-  image?: string;
-  desc?: any;
-  amount?: string;
-}
+export default function ProductCard(
+  props: RestaurantSchema,
+): React.JSX.Element {
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
-export default function ProductCard({
-  title,
-  image,
-  desc,
-  amount,
-}: ItemCard): React.JSX.Element {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('Restaurant', props);
+      }}
+      style={styles.card}>
       <Image
         source={{
-          uri: 'https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg',
+          uri: props?.photo?.images?.medium?.url
+            ? props?.photo?.images?.medium?.url
+            : 'https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg',
         }}
         style={{
           width: '100%',
@@ -33,10 +34,20 @@ export default function ProductCard({
           borderColor: Colors.DEFAULT_GREY,
         }}
       />
-      <Text style={styles.text}>Restaurant Name</Text>
-      <Text style={styles.textDescription}>Classic 1 0 1</Text>
-      <Text style={styles.textPrice}># 4000</Text>
-    </View>
+      <Text style={styles.text}>{props?.name}</Text>
+      <Text style={styles.textDescription}>
+        {props?.address_obj?.city}, {props?.address_obj?.country}
+      </Text>
+      <Text style={styles.textPrice}>
+        {props?.price || 'No Listed Pricing'}
+      </Text>
+      <Text style={styles.textRating}>
+        <Text style={styles.textRatingNumber}>
+          {props?.rating || 'No Listed Pricing'}
+        </Text>{' '}
+        stars rating
+      </Text>
+    </TouchableOpacity>
   );
 }
 
@@ -45,7 +56,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 16,
     width: screenWidth(0.7),
-    height: screenWidth(0.7),
     padding: screenWidth(0.04),
     borderColor: '#E2E2E2',
     marginRight: 20,
@@ -60,9 +70,21 @@ const styles = StyleSheet.create({
     fontSize: screenWidth(0.025),
     width: '100%',
   },
+
   textPrice: {
     fontFamily: 'Poppins-Medium',
     color: Colors.DEFAULT_YELLOW,
+    width: '100%',
+  },
+  textRating: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: screenWidth(0.028),
+    width: '100%',
+  },
+  textRatingNumber: {
+    fontFamily: 'Poppins-Bold',
+    fontSize: screenWidth(0.028),
+    color: Colors.BLACK,
     width: '100%',
   },
   plus: {

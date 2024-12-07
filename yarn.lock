@@ -3789,6 +3789,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cliui@npm:^7.0.2":
+  version: 7.0.4
+  resolution: "cliui@npm:7.0.4"
+  dependencies:
+    string-width: ^4.2.0
+    strip-ansi: ^6.0.0
+    wrap-ansi: ^7.0.0
+  checksum: ce2e8f578a4813806788ac399b9e866297740eecd4ad1823c27fd344d78b22c5f8597d548adbcc46f0573e43e21e751f39446c5a5e804a12aace402b7a315d7f
+  languageName: node
+  linkType: hard
+
 "cliui@npm:^8.0.1":
   version: 8.0.1
   resolution: "cliui@npm:8.0.1"
@@ -8074,7 +8085,10 @@ __metadata:
     react-native-dotenv: ^3.4.11
     react-native-gesture-handler: ^2.21.2
     react-native-safe-area-context: ^4.14.0
+    react-native-screens: ^4.3.0
+    react-native-star-rating-widget: ^1.9.2
     react-native-svg: ^15.10.1
+    react-native-vector-icons: ^10.2.0
     react-test-renderer: 18.3.1
     typescript: 5.0.4
     yup: ^1.5.0
@@ -8295,6 +8309,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-freeze@npm:^1.0.0":
+  version: 1.0.4
+  resolution: "react-freeze@npm:1.0.4"
+  peerDependencies:
+    react: ">=17.0.0"
+  checksum: 6b4d93209dff04a1f25d9f8e0c56a9a8a80e7889e8e8267299f34449c7e41a9ab90cad24569d03dd7173b56b7496576dba68f71f1d4e5c8be72f0633023668bc
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.12.0 || ^17.0.0 || ^18.0.0, react-is@npm:^18.0.0, react-is@npm:^18.2.0, react-is@npm:^18.3.1":
   version: 18.3.1
   resolution: "react-is@npm:18.3.1"
@@ -8352,6 +8375,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-screens@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "react-native-screens@npm:4.3.0"
+  dependencies:
+    react-freeze: ^1.0.0
+    warn-once: ^0.1.0
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: b43ae4145e264582732ec53c78ba88de678c8ce7f9687b0526bf647c7d1ea8311ee821945848a55fb04f145bf8cae189d2d4e0f49e52571cb23acf083f2df858
+  languageName: node
+  linkType: hard
+
+"react-native-star-rating-widget@npm:^1.9.2":
+  version: 1.9.2
+  resolution: "react-native-star-rating-widget@npm:1.9.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-svg: "*"
+  checksum: adcc6b931b12c2fb1aa72a483dc31295de1076dc6406824a62b748a94d38a50657ef6ede56b435e36100c755336df839be3d26f67520be990b9757684beea205
+  languageName: node
+  linkType: hard
+
 "react-native-svg@npm:^15.10.1":
   version: 15.10.1
   resolution: "react-native-svg@npm:15.10.1"
@@ -8363,6 +8410,21 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: c210426b424e99730ba35d6bbf18335a99f04f2f234cb5bb578ac685c31cfca5e39d48ebf05f9189edd61c028405f4ff242b5edc98ee3e3f41c8bfa960f5bff4
+  languageName: node
+  linkType: hard
+
+"react-native-vector-icons@npm:^10.2.0":
+  version: 10.2.0
+  resolution: "react-native-vector-icons@npm:10.2.0"
+  dependencies:
+    prop-types: ^15.7.2
+    yargs: ^16.1.1
+  bin:
+    fa-upgrade.sh: bin/fa-upgrade.sh
+    fa5-upgrade: bin/fa5-upgrade.sh
+    fa6-upgrade: bin/fa6-upgrade.sh
+    generate-icon: bin/generate-icon.js
+  checksum: fda930df4e63f12533268f5b339ebe4c77c691eae43503328466b3087ed868a06a4593fd246e75ac6b5ec955543eec35608c7922191bdcc3b3a94ed7f3575ef0
   languageName: node
   linkType: hard
 
@@ -9842,7 +9904,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"warn-once@npm:0.1.1, warn-once@npm:^0.1.1":
+"warn-once@npm:0.1.1, warn-once@npm:^0.1.0, warn-once@npm:^0.1.1":
   version: 0.1.1
   resolution: "warn-once@npm:0.1.1"
   checksum: e6a5a1f5a8dba7744399743d3cfb571db4c3947897875d4962a7c5b1bf2195ab4518c838cb4cea652e71729f21bba2e98dc75686f5fccde0fabbd894e2ed0c0d
@@ -10123,6 +10185,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"yargs-parser@npm:^20.2.2":
+  version: 20.2.9
+  resolution: "yargs-parser@npm:20.2.9"
+  checksum: 8bb69015f2b0ff9e17b2c8e6bfe224ab463dd00ca211eece72a4cd8a906224d2703fb8a326d36fdd0e68701e201b2a60ed7cf81ce0fd9b3799f9fe7745977ae3
+  languageName: node
+  linkType: hard
+
 "yargs-parser@npm:^21.1.1":
   version: 21.1.1
   resolution: "yargs-parser@npm:21.1.1"
@@ -10146,6 +10215,21 @@ __metadata:
     y18n: ^4.0.0
     yargs-parser: ^18.1.2
   checksum: 40b974f508d8aed28598087720e086ecd32a5fd3e945e95ea4457da04ee9bdb8bdd17fd91acff36dc5b7f0595a735929c514c40c402416bbb87c03f6fb782373
+  languageName: node
+  linkType: hard
+
+"yargs@npm:^16.1.1":
+  version: 16.2.0
+  resolution: "yargs@npm:16.2.0"
+  dependencies:
+    cliui: ^7.0.2
+    escalade: ^3.1.1
+    get-caller-file: ^2.0.5
+    require-directory: ^2.1.1
+    string-width: ^4.2.0
+    y18n: ^5.0.5
+    yargs-parser: ^20.2.2
+  checksum: b14afbb51e3251a204d81937c86a7e9d4bdbf9a2bcee38226c900d00f522969ab675703bee2a6f99f8e20103f608382936034e64d921b74df82b63c07c5e8f59
   languageName: node
   linkType: hard
 

@@ -1,5 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useContext, useEffect, useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useContext, useEffect} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -12,33 +14,18 @@ import {
   View,
 } from 'react-native';
 
-import * as Yup from 'yup';
-import {useFormik} from 'formik';
 import Colors from '@src/config/Colors';
-import {getDataObject, storeDataObject} from '@src/storage';
-import FormInput from '@src/components/FormInput';
-import SearchIcon from '@src/assets/icons/SearchIcon';
 import {screenHeight, screenWidth} from '@src/utils/Sizes';
-import SettingsIcon from '@src/assets/icons/SettingsIcon';
 import ProductCard from '@src/components/ProductCard';
 import MainContext, {ContextType} from '@src/context/global.context';
+import {storeDataObject} from '@src/storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function Home(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-
-  const [history, setHistory] = useState<any>([]);
-
-  const {name} = useContext<ContextType>(MainContext);
-
-  const getHistory = () => {
-    getDataObject('history').then(val => {
-      if (val) {
-        setHistory(val);
-      } else {
-        setHistory([]);
-      }
-    });
-  };
+  const {recentData, lastViewedData, getLastViewed} = useContext(
+    MainContext,
+  ) as ContextType;
 
   const backgroundStyle = {
     backgroundColor: Colors.DEFAULT_WHITE,
@@ -46,21 +33,8 @@ function Home(): React.JSX.Element {
     padding: 20,
   };
 
-  const formik = useFormik({
-    initialValues: {
-      search: '',
-    },
-    validationSchema: Yup.object().shape({
-      search: Yup.string().required('Input Keyword'),
-    }),
-    onSubmit: (values?: any) => {
-      storeDataObject('history', [...history, values.search]);
-      getHistory();
-    },
-  });
-
   useEffect(() => {
-    getHistory();
+    getLastViewed();
   }, []);
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -68,72 +42,65 @@ function Home(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View style={styles.top}>
-          <FormInput
-            IconLeft={SearchIcon}
-            formik={formik}
-            width={screenWidth(0.72)}
-            name="search"
-            onPressLeft={() => {
-              formik.handleSubmit();
-            }}
-          />
-          <SettingsIcon />
-        </View>
-        <View style={styles.searchTop}>
-          <Text style={styles.searchText}>Search history</Text>
-          <TouchableOpacity
-            onPress={() => {
-              storeDataObject('history', []);
-              getHistory();
-            }}>
-            <Text style={styles.clearText}>clear</Text>
-          </TouchableOpacity>
-        </View>
-
-        <FlatList
-          data={history}
-          style={styles.historyTab}
-          renderItem={({item, index}) => (
-            <TouchableOpacity key={index}>
-              <View style={styles.pin}>
-                <Text style={styles.pinText}>{item}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
-
-        <Text style={styles.title}>Last Checked</Text>
-        <FlatList
-          data={[1, 2, 5, 5, 7, 8]}
-          style={styles.cardDisplaySection}
-          renderItem={() => (
-            <View>
-              <ProductCard />
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
-
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Restaurants Valley</Text>
         <FlatList
-          data={[1, 2, 5, 5, 7, 8]}
+          data={recentData}
           style={styles.cardDisplaySection}
-          renderItem={() => (
+          renderItem={({item}) => (
             <View>
-              <ProductCard />
+              <ProductCard {...item} />
             </View>
           )}
           keyExtractor={(item, index) => index.toString()}
           horizontal
           showsHorizontalScrollIndicator={false}
         />
+        <Text style={styles.title}>Last Viewed</Text>
+        <FlatList
+          data={lastViewedData}
+          style={styles.cardDisplaySection}
+          renderItem={({item}) => (
+            <View>
+              <ProductCard {...item} />
+            </View>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          ListEmptyComponent={() => {
+            return (
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins-Light',
+                  }}>
+                  You haven't viewed any restaurant{' '}
+                  <Icon name="map-pin" size={15} color="#000" />
+                </Text>
+              </View>
+            );
+          }}
+        />
+        {lastViewedData?.length ? (
+          <TouchableOpacity
+            onPress={() => {
+              storeDataObject('lastViewed', []);
+              getLastViewed();
+            }}>
+            <Text style={styles.clearText}>Clear List</Text>
+          </TouchableOpacity>
+        ) : (
+          <Text></Text>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -160,7 +127,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Bold',
   },
   clearText: {
-    color: Colors.DEFAULT_YELLOW,
+    color: Colors.DEFAULT_GREY,
+    marginTop: screenHeight(0.01),
     fontFamily: 'Poppins-Bold',
   },
   historyTab: {

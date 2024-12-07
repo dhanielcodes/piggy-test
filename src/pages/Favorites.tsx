@@ -6,9 +6,10 @@ import {
   Text,
   useColorScheme,
 } from 'react-native';
+
 import Colors from '@src/config/Colors';
 
-function Trend(): React.JSX.Element {
+function Favorites(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -26,10 +27,10 @@ function Trend(): React.JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Text>Trend</Text>
+        <Text>Order</Text>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-export default Trend;
+export default Favorites;
