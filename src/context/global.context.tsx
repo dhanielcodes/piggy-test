@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {ApiService} from '@src/service';
@@ -6,8 +7,8 @@ import {useMutation, useQuery} from '@tanstack/react-query';
 import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 
 export type ContextType = {
-  recentData?: any;
-  lastViewedData?: any;
+  lastData?: any;
+  viewedData?: any;
   favoriteList?: any;
   getLastViewed?: () => void;
   getLastData?: () => void;
@@ -29,13 +30,17 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
   const {data, isLoading, refetch, isFetching, error} = useQuery({
     queryKey: ['GetRestaurantsQuery'],
     queryFn: () => ApiService.GetRestaurantsQuery(),
-    enabled: lastData?.length ? false : true,
+    enabled: false,
   });
 
   const getLastData = () => {
     getDataObject('restaurants').then(val => {
       if (val) {
-        setLastData(val);
+        if (val?.length) {
+          setLastData(val);
+        } else {
+          refetch();
+        }
       } else {
         setLastData([]);
       }
@@ -65,6 +70,7 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
     getFavorites();
   }, []);
   useEffect(() => {
+    //storeDataObject('favorites', []);
     storeDataObject(
       'restaurants',
       data?.data?.data?.map((item: object, index: number) => {
@@ -88,14 +94,16 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
           ...item,
         };
       }),
-    );
+    ).then(res => {
+      getLastData();
+    });
   }, [data]);
 
   return (
     <MainContext.Provider
       value={{
-        recentData: lastData,
-        lastViewedData: viewedData,
+        lastData,
+        viewedData,
         favoriteList,
         getFavorites,
         getLastViewed,

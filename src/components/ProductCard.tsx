@@ -17,21 +17,20 @@ export default function ProductCard(
 ): React.JSX.Element {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   const {
-    lastViewedData,
+    viewedData,
     getLastViewed,
     favoriteList,
-    recentData,
+    lastData,
+    getLastData,
     getFavorites,
   }: any = useContext(MainContext) as ContextType;
-
-  const [data, setData] = useState(props);
 
   /* useEffect(() => {
   }, [data]); */
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('Restaurant', data);
+        navigation.navigate('Restaurant', props);
       }}
       style={styles.card}>
       <Image
@@ -69,28 +68,34 @@ export default function ProductCard(
         </Text>
         <TouchableOpacity
           onPress={() => {
-            storeDataObject('favorites', [
-              {...data, favorite: !data?.favorite},
-              ...favoriteList?.filter((item: any) => item?.id !== data?.id),
-            ]);
-            setData({
-              ...data,
-              favorite: !data?.favorite,
-            });
-            storeDataObject('restaurants', [
-              ...recentData?.filter((item: any) => item?.id !== data?.id),
-              {...data, favorite: !data?.favorite},
-            ]);
-            // getLastViewed();
-            //storeDataObject('restaurants', [...recentData, data]);
-            setTimeout(() => {
+            const updateList = lastData?.map((itm: RestaurantSchema) =>
+              itm?.id === props?.id ? {...itm, favorite: !itm?.favorite} : itm,
+            );
+            storeDataObject(
+              'favorites',
+              updateList?.filter((itm: RestaurantSchema) => itm?.favorite),
+            ).then(res => {
               getFavorites();
-            }, 500);
+            });
+            storeDataObject('restaurants', updateList).then(res => {
+              getLastData();
+            });
+
+            const updateLastViewed = updateList.filter(
+              (itm: RestaurantSchema) =>
+                viewedData
+                  ?.map((itmm: RestaurantSchema) => itmm?.id)
+                  .includes(itm.id),
+            );
+
+            storeDataObject('lastViewed', updateLastViewed).then(res => {
+              getLastViewed();
+            });
           }}>
           <StarIcon
             size={20}
             index={1}
-            type={data?.favorite ? 'full' : 'empty'}
+            type={props?.favorite ? 'full' : 'empty'}
             color="#000"
           />
         </TouchableOpacity>

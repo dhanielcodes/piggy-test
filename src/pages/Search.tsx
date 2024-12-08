@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -14,14 +15,12 @@ import {
   View,
 } from 'react-native';
 
-import * as Yup from 'yup';
 import {useFormik} from 'formik';
 import Colors from '@src/config/Colors';
 import {getDataObject, storeDataObject} from '@src/storage';
 import FormInput from '@src/components/FormInput';
 import SearchIcon from '@src/assets/icons/SearchIcon';
 import {screenHeight, screenWidth} from '@src/utils/Sizes';
-import SettingsIcon from '@src/assets/icons/SettingsIcon';
 import ProductCard from '@src/components/ProductCard';
 import MainContext, {ContextType} from '@src/context/global.context';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -32,7 +31,7 @@ function Search(): React.JSX.Element {
 
   const [history, setHistory] = useState<any>([]);
 
-  const {recentData, getLastViewed} = useContext(MainContext) as ContextType;
+  const {lastData, getLastViewed}: any = useContext(MainContext) as ContextType;
 
   const getHistory = () => {
     getDataObject('history').then(val => {
@@ -56,8 +55,9 @@ function Search(): React.JSX.Element {
       rating: 0,
     },
     onSubmit: (values?: any) => {
-      storeDataObject('history', [...history, values.search]);
-      getHistory();
+      storeDataObject('history', [...history, values.search]).then(res => {
+        getHistory();
+      });
     },
   });
 
@@ -103,8 +103,9 @@ function Search(): React.JSX.Element {
           <Text style={styles.searchText}>Search history</Text>
           <TouchableOpacity
             onPress={() => {
-              storeDataObject('history', []);
-              getHistory();
+              storeDataObject('history', []).then(res => {
+                getHistory();
+              });
             }}>
             <Text style={styles.clearText}>clear</Text>
           </TouchableOpacity>
@@ -151,7 +152,7 @@ function Search(): React.JSX.Element {
         <FlatList
           data={
             formik.values.search && formik.values.rating
-              ? recentData
+              ? lastData
                   ?.filter((item: any) =>
                     item?.name.toLowerCase()?.includes(formik.values.search),
                   )
@@ -160,11 +161,11 @@ function Search(): React.JSX.Element {
                       Number(item?.rating) === formik.values.rating,
                   )
               : formik.values.search
-              ? recentData?.filter((item: any) =>
+              ? lastData?.filter((item: any) =>
                   item?.name.toLowerCase()?.includes(formik.values.search),
                 )
               : formik.values.rating
-              ? recentData?.filter(
+              ? lastData?.filter(
                   (item: any) => Number(item?.rating) === formik.values.rating,
                 )
               : []

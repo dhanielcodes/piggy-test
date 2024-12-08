@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
@@ -24,7 +25,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 function Home(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const {recentData, lastViewedData, getLastViewed}: any = useContext(
+  const {lastData, viewedData, getLastViewed, getLastData}: any = useContext(
     MainContext,
   ) as ContextType;
 
@@ -35,6 +36,7 @@ function Home(): React.JSX.Element {
   };
 
   useEffect(() => {
+    getLastData();
     getLastViewed();
   }, []);
   return (
@@ -48,7 +50,7 @@ function Home(): React.JSX.Element {
         showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Restaurants Valley</Text>
         <FlatList
-          data={recentData}
+          data={lastData}
           style={styles.cardDisplaySection}
           renderItem={({item}) => (
             <View>
@@ -61,7 +63,7 @@ function Home(): React.JSX.Element {
         />
         <Text style={styles.title}>Last Viewed</Text>
         <FlatList
-          data={lastViewedData}
+          data={viewedData}
           style={styles.cardDisplaySection}
           renderItem={({item}) => (
             <View>
@@ -91,11 +93,12 @@ function Home(): React.JSX.Element {
             );
           }}
         />
-        {lastViewedData?.length ? (
+        {viewedData?.length ? (
           <TouchableOpacity
             onPress={() => {
-              storeDataObject('lastViewed', []);
-              getLastViewed();
+              storeDataObject('lastViewed', []).then(res => {
+                getLastViewed();
+              });
             }}>
             <Text style={styles.clearText}>Clear List</Text>
           </TouchableOpacity>

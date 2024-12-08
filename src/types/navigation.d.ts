@@ -5,7 +5,7 @@ export type MainStackParamList = {
     Trend: undefined;
     Order: undefined;
     Profile: undefined;
-    Restaurant: undefined;
+    Restaurant: undefined | data;
     Favorites: undefined;
     MainNavigator:undefined;
 }
