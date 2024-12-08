@@ -3,7 +3,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -22,12 +22,12 @@ import ProductCard from '@src/components/ProductCard';
 import MainContext, {ContextType} from '@src/context/global.context';
 import {storeDataObject} from '@src/storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import SkeletonCard from '@src/components/SkeletonCard';
 
 function Home(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const {lastData, viewedData, getLastViewed, getLastData}: any = useContext(
-    MainContext,
-  ) as ContextType;
+  const {lastData, viewedData, getLastViewed, loading, getLastData}: any =
+    useContext(MainContext) as ContextType;
 
   const backgroundStyle = {
     backgroundColor: Colors.DEFAULT_WHITE,
@@ -61,6 +61,20 @@ function Home(): React.JSX.Element {
           horizontal
           showsHorizontalScrollIndicator={false}
         />
+        {loading && (
+          <FlatList
+            data={[1, 2, 4, 5, 6, 6]}
+            style={styles.cardDisplaySection}
+            renderItem={({item}) => (
+              <View>
+                <SkeletonCard />
+              </View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        )}
         <Text style={styles.title}>Last Viewed</Text>
         <FlatList
           data={viewedData}
@@ -93,6 +107,20 @@ function Home(): React.JSX.Element {
             );
           }}
         />
+        {loading && (
+          <FlatList
+            data={[1, 2, 4, 5, 6, 6]}
+            style={styles.cardDisplaySection}
+            renderItem={({item}) => (
+              <View>
+                <SkeletonCard />
+              </View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        )}
         {viewedData?.length ? (
           <TouchableOpacity
             onPress={() => {

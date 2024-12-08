@@ -10,6 +10,7 @@ export type ContextType = {
   lastData?: any;
   viewedData?: any;
   favoriteList?: any;
+  loading?: any;
   getLastViewed?: () => void;
   getLastData?: () => void;
   getFavorites?: () => void;
@@ -26,6 +27,7 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
   const [lastData, setLastData] = useState([]);
   const [viewedData, setViewedData] = useState([]);
   const [favoriteList, setFavoriteList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const {data, isLoading, refetch, isFetching, error} = useQuery({
     queryKey: ['GetRestaurantsQuery'],
@@ -34,7 +36,9 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
   });
 
   const getLastData = () => {
+    setLoading(true);
     getDataObject('restaurants').then(val => {
+      setLoading(false);
       if (val) {
         if (val?.length) {
           setLastData(val);
@@ -108,6 +112,7 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
         getFavorites,
         getLastViewed,
         getLastData,
+        loading: loading || isLoading,
       }}>
       {children}
     </MainContext.Provider>

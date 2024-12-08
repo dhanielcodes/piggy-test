@@ -25,13 +25,16 @@ import ProductCard from '@src/components/ProductCard';
 import MainContext, {ContextType} from '@src/context/global.context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import StarRating from 'react-native-star-rating-widget';
+import SkeletonCard from '@src/components/SkeletonCard';
 
 function Search(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const [history, setHistory] = useState<any>([]);
 
-  const {lastData, getLastViewed}: any = useContext(MainContext) as ContextType;
+  const {lastData, getLastViewed, loading}: any = useContext(
+    MainContext,
+  ) as ContextType;
 
   const getHistory = () => {
     getDataObject('history').then(val => {
@@ -110,7 +113,6 @@ function Search(): React.JSX.Element {
             <Text style={styles.clearText}>clear</Text>
           </TouchableOpacity>
         </View>
-
         <FlatList
           data={history}
           style={styles.historyTab}
@@ -147,8 +149,22 @@ function Search(): React.JSX.Element {
           horizontal
           showsHorizontalScrollIndicator={false}
         />
-
-        <Text style={styles.title}>Search</Text>
+        '{' '}
+        {loading && (
+          <FlatList
+            data={[1, 2, 4, 5, 6, 6]}
+            style={styles.cardDisplaySection}
+            renderItem={({item}) => (
+              <View>
+                <SkeletonCard />
+              </View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        )}
+        '<Text style={styles.title}>Search</Text>
         <FlatList
           data={
             formik.values.search && formik.values.rating

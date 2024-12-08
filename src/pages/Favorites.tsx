@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
@@ -18,6 +19,7 @@ import MainContext, {ContextType} from '@src/context/global.context';
 import {screenHeight, screenWidth} from '@src/utils/Sizes';
 import ProductCard from '@src/components/ProductCard';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import SkeletonCard from '@src/components/SkeletonCard';
 
 function Favorites(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,7 +30,7 @@ function Favorites(): React.JSX.Element {
     padding: 16,
   };
 
-  const {favoriteList, getFavorites}: any = useContext(
+  const {favoriteList, getFavorites, loading}: any = useContext(
     MainContext,
   ) as ContextType;
 
@@ -77,6 +79,20 @@ function Favorites(): React.JSX.Element {
             );
           }}
         />
+        {loading && (
+          <FlatList
+            data={[1, 2, 4, 5, 6, 6]}
+            style={styles.cardDisplaySection}
+            renderItem={({item}) => (
+              <View>
+                <SkeletonCard />
+              </View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
