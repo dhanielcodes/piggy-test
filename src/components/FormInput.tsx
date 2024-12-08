@@ -7,8 +7,8 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import {screenWidth} from '../utils/Sizes';
-import Colors from '../config/Colors';
+import {screenWidth} from '@src/utils/Sizes';
+import Colors from '@src/config/Colors';
 
 interface FormInputProps {
   name: string;

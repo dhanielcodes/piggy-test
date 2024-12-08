@@ -1,7 +1,7 @@
 import {View, StyleSheet, Modal} from 'react-native';
 import React, {ReactNode} from 'react';
 
-interface ItemCard {
+interface ModalInterface {
   modalVisible?: any;
   setModalVisible?: any;
   children?: ReactNode;
@@ -11,7 +11,7 @@ export default function ModalComponent({
   modalVisible,
   setModalVisible,
   children,
-}: ItemCard): React.JSX.Element {
+}: ModalInterface): React.JSX.Element {
   return (
     <Modal
       animationType="slide" // Can be 'slide', 'fade', or 'none'

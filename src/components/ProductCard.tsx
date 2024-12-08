@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import Colors from '../config/Colors';
-import {screenHeight, screenWidth} from '../utils/Sizes';
-import AddIcon from '../assets/icons/AddIcon';
+import React, {useContext} from 'react';
+import Colors from '@src/config/Colors';
+import {screenHeight, screenWidth} from '@src/utils/Sizes';
 import {RestaurantSchema} from '@src/types/restaurant';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {MainStackParamList} from '@src/types/navigation';
