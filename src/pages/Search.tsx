@@ -25,6 +25,7 @@ import SettingsIcon from '@src/assets/icons/SettingsIcon';
 import ProductCard from '@src/components/ProductCard';
 import MainContext, {ContextType} from '@src/context/global.context';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import StarRating from 'react-native-star-rating-widget';
 
 function Search(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -52,6 +53,7 @@ function Search(): React.JSX.Element {
   const formik = useFormik({
     initialValues: {
       search: '',
+      rating: 0,
     },
     onSubmit: (values?: any) => {
       storeDataObject('history', [...history, values.search]);
@@ -72,16 +74,31 @@ function Search(): React.JSX.Element {
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.top}>
           <FormInput
-            IconRight={SearchIcon}
+            IconLeft={SearchIcon}
             formik={formik}
-            width={screenWidth(0.72)}
+            width={screenWidth(0.9)}
             name="search"
             handleSubmit={() => {
               formik.handleSubmit();
             }}
           />
-          <SettingsIcon />
+          {/*   <SettingsIcon /> */}
         </View>
+        <Text style={[styles.searchText, {marginTop: screenHeight(0.03)}]}>
+          Filter search by rating
+        </Text>
+        <StarRating
+          rating={formik.values.rating}
+          onChange={e => {
+            formik.setFieldValue('rating', e);
+          }}
+          style={{
+            marginTop: 6,
+            marginLeft: -8,
+          }}
+          maxStars={5}
+          starSize={26}
+        />
         <View style={styles.searchTop}>
           <Text style={styles.searchText}>Search history</Text>
           <TouchableOpacity
@@ -133,9 +150,22 @@ function Search(): React.JSX.Element {
         <Text style={styles.title}>Search</Text>
         <FlatList
           data={
-            formik.values.search
+            formik.values.search && formik.values.rating
+              ? recentData
+                  ?.filter((item: any) =>
+                    item?.name.toLowerCase()?.includes(formik.values.search),
+                  )
+                  ?.filter(
+                    (item: any) =>
+                      Number(item?.rating) === formik.values.rating,
+                  )
+              : formik.values.search
               ? recentData?.filter((item: any) =>
                   item?.name.toLowerCase()?.includes(formik.values.search),
+                )
+              : formik.values.rating
+              ? recentData?.filter(
+                  (item: any) => Number(item?.rating) === formik.values.rating,
                 )
               : []
           }

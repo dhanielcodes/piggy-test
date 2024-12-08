@@ -1,3 +1,4 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -23,7 +24,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 function Home(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const {recentData, lastViewedData, getLastViewed} = useContext(
+  const {recentData, lastViewedData, getLastViewed}: any = useContext(
     MainContext,
   ) as ContextType;
 

@@ -1,23 +1,37 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Colors from '../config/Colors';
 import {screenHeight, screenWidth} from '../utils/Sizes';
 import AddIcon from '../assets/icons/AddIcon';
 import {RestaurantSchema} from '@src/types/restaurant';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {MainStackParamList} from '@src/types/navigation';
+import {StarIcon} from 'react-native-star-rating-widget';
+import {storeDataObject} from '@src/storage';
+import MainContext, {ContextType} from '@src/context/global.context';
 
 export default function ProductCard(
   props: RestaurantSchema,
 ): React.JSX.Element {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  const {
+    lastViewedData,
+    getLastViewed,
+    favoriteList,
+    recentData,
+    getFavorites,
+  }: any = useContext(MainContext) as ContextType;
 
+  const [data, setData] = useState(props);
+
+  /* useEffect(() => {
+  }, [data]); */
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('Restaurant', props);
+        navigation.navigate('Restaurant', data);
       }}
       style={styles.card}>
       <Image
@@ -41,12 +55,46 @@ export default function ProductCard(
       <Text style={styles.textPrice}>
         {props?.price || 'No Listed Pricing'}
       </Text>
-      <Text style={styles.textRating}>
-        <Text style={styles.textRatingNumber}>
-          {props?.rating || 'No Listed Pricing'}
-        </Text>{' '}
-        stars rating
-      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '95%',
+        }}>
+        <Text style={styles.textRating}>
+          <Text style={styles.textRatingNumber}>
+            {props?.rating || 'No Listed Pricing'}
+          </Text>{' '}
+          stars rating
+        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            storeDataObject('favorites', [
+              {...data, favorite: !data?.favorite},
+              ...favoriteList?.filter((item: any) => item?.id !== data?.id),
+            ]);
+            setData({
+              ...data,
+              favorite: !data?.favorite,
+            });
+            storeDataObject('restaurants', [
+              ...recentData?.filter((item: any) => item?.id !== data?.id),
+              {...data, favorite: !data?.favorite},
+            ]);
+            // getLastViewed();
+            //storeDataObject('restaurants', [...recentData, data]);
+            setTimeout(() => {
+              getFavorites();
+            }, 500);
+          }}>
+          <StarIcon
+            size={20}
+            index={1}
+            type={data?.favorite ? 'full' : 'empty'}
+            color="#000"
+          />
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
 }

@@ -24,16 +24,21 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import StarRating from 'react-native-star-rating-widget';
+import StarRating, {StarIcon} from 'react-native-star-rating-widget';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Yup from 'yup';
 
 function RestaurantPage({route}: {route?: any}): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
-  const {lastViewedData, getLastViewed, recentData, getLastData} = useContext(
-    MainContext,
-  ) as ContextType;
+  const {
+    lastViewedData,
+    getLastViewed,
+    recentData,
+    getLastData,
+    getFavorites,
+    favoriteList,
+  }: any = useContext(MainContext) as ContextType;
   const backgroundStyle = {
     backgroundColor: Colors.DEFAULT_WHITE,
     flex: 1,
@@ -87,7 +92,7 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
     getLastData();
   }, [data]);
 
-  console.log(data.reviewsList, 'reviewsList');
+  //console.log(data.reviewsList, 'reviewsList');
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -129,6 +134,32 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
             borderColor: Colors.DEFAULT_GREY,
           }}
         />
+
+        <TouchableOpacity
+          onPress={() => {
+            storeDataObject('favorites', [
+              {...data, favorite: !data?.favorite},
+              ...favoriteList?.filter((item: any) => item?.id !== data?.id),
+            ]);
+            setData({
+              ...data,
+              favorite: !data?.favorite,
+            });
+            storeDataObject('restaurants', [
+              ...recentData?.filter((item: any) => item?.id !== data?.id),
+              {...data, favorite: !data?.favorite},
+            ]);
+            // getLastViewed();
+            //storeDataObject('restaurants', [...recentData, data]);
+            getFavorites();
+          }}>
+          <StarIcon
+            size={20}
+            index={1}
+            type={data?.favorite ? 'full' : 'empty'}
+            color="#000"
+          />
+        </TouchableOpacity>
 
         <Text style={styles.textDescription}>{data?.description}</Text>
         <Text style={styles.textPrice}>

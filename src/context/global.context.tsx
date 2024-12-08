@@ -8,8 +8,10 @@ import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 export type ContextType = {
   recentData?: any;
   lastViewedData?: any;
+  favoriteList?: any;
   getLastViewed?: () => void;
   getLastData?: () => void;
+  getFavorites?: () => void;
 } | null;
 
 interface Context {
@@ -21,13 +23,14 @@ const MainContext = createContext<ContextType | null>(null);
 export const MainProvider: React.FC<Context> = ({children}: Context) => {
   // Use this type in your state initialization
   const [lastData, setLastData] = useState([]);
+  const [viewedData, setViewedData] = useState([]);
+  const [favoriteList, setFavoriteList] = useState([]);
 
   const {data, isLoading, refetch, isFetching, error} = useQuery({
     queryKey: ['GetRestaurantsQuery'],
     queryFn: () => ApiService.GetRestaurantsQuery(),
     enabled: lastData?.length ? false : true,
   });
-  const [viewedData, setViewedData] = useState([]);
 
   const getLastData = () => {
     getDataObject('restaurants').then(val => {
@@ -47,9 +50,19 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
       }
     });
   };
+  const getFavorites = () => {
+    getDataObject('favorites').then(val => {
+      if (val) {
+        setFavoriteList(val);
+      } else {
+        setFavoriteList([]);
+      }
+    });
+  };
   useEffect(() => {
     getLastData();
     getLastViewed();
+    getFavorites();
   }, []);
   useEffect(() => {
     storeDataObject(
@@ -83,6 +96,8 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
       value={{
         recentData: lastData,
         lastViewedData: viewedData,
+        favoriteList,
+        getFavorites,
         getLastViewed,
         getLastData,
       }}>
