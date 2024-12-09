@@ -28,8 +28,6 @@ import StarRating from 'react-native-star-rating-widget';
 import SkeletonCard from '@src/components/SkeletonCard';
 
 function Search(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
   const [history, setHistory] = useState<any>([]);
 
   const {lastData, getLastViewed, loading}: any = useContext(
@@ -70,10 +68,7 @@ function Search(): React.JSX.Element {
   }, []);
   return (
     <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
+      <StatusBar backgroundColor={backgroundStyle.backgroundColor} />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.top}>
           <FormInput
@@ -85,7 +80,6 @@ function Search(): React.JSX.Element {
               formik.handleSubmit();
             }}
           />
-          {/*   <SettingsIcon /> */}
         </View>
         <Text style={[styles.searchText, {marginTop: screenHeight(0.03)}]}>
           Filter search by rating
@@ -149,7 +143,6 @@ function Search(): React.JSX.Element {
           horizontal
           showsHorizontalScrollIndicator={false}
         />
-        '{' '}
         {loading && (
           <FlatList
             data={[1, 2, 4, 5, 6, 6]}
@@ -164,7 +157,7 @@ function Search(): React.JSX.Element {
             showsHorizontalScrollIndicator={false}
           />
         )}
-        '<Text style={styles.title}>Search</Text>
+        <Text style={styles.title}>Search</Text>
         <FlatList
           data={
             formik.values.search && formik.values.rating
@@ -227,7 +220,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    marginTop: screenHeight(0.03),
     fontSize: screenWidth(0.06),
     fontFamily: 'Poppins-Medium',
   },

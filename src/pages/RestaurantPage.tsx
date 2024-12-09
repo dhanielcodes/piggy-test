@@ -32,7 +32,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Yup from 'yup';
 
 function RestaurantPage({route}: {route?: any}): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   const {
     viewedData,
@@ -120,10 +119,7 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
+      <StatusBar backgroundColor={backgroundStyle.backgroundColor} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
@@ -280,7 +276,7 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
         <Text style={styles.textRating}>
           <Text style={styles.textRatingNumber}>
             {data?.rating || 'No Listed Pricing'}
-          </Text>{' '}
+          </Text>
           stars rating
         </Text>
         <View

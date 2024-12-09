@@ -22,8 +22,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import SkeletonCard from '@src/components/SkeletonCard';
 
 function Favorites(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
     backgroundColor: Colors.DEFAULT_WHITE,
     flex: 1,
@@ -40,10 +38,7 @@ function Favorites(): React.JSX.Element {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
+      <StatusBar backgroundColor={backgroundStyle.backgroundColor} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
@@ -107,7 +102,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    marginTop: screenHeight(0.03),
     fontSize: screenWidth(0.06),
     fontFamily: 'Poppins-Medium',
   },

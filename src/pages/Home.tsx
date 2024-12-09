@@ -3,7 +3,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -25,7 +25,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import SkeletonCard from '@src/components/SkeletonCard';
 
 function Home(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
   const {lastData, viewedData, getLastViewed, loading, getLastData}: any =
     useContext(MainContext) as ContextType;
 
@@ -41,10 +40,7 @@ function Home(): React.JSX.Element {
   }, []);
   return (
     <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
+      <StatusBar backgroundColor={backgroundStyle.backgroundColor} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         showsVerticalScrollIndicator={false}>
@@ -145,7 +141,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    marginTop: screenHeight(0.03),
     fontSize: screenWidth(0.06),
     fontFamily: 'Poppins-Medium',
   },
@@ -169,6 +164,7 @@ const styles = StyleSheet.create({
 
   cardDisplaySection: {
     marginTop: screenHeight(0.008),
+    marginBottom: screenHeight(0.03),
   },
   cardDisplayTab: {
     aspectRatio: 1,

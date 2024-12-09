@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import './gesture-handler.native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {MainStackParamList} from '@src/types/navigation';
@@ -7,6 +8,9 @@ import {MainProvider} from '@src/context/global.context';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import RestaurantPage from '@src/pages/RestaurantPage';
 import {MainNavigator} from '@src/navigation/MainNavigator';
+import {Text, View} from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 //import Home from 'src/pages/Home';
 
@@ -25,9 +29,36 @@ const queryClient = new QueryClient({
 const ScreenStack = createNativeStackNavigator<MainStackParamList>();
 
 function App(): React.JSX.Element {
+  const [isConnected, setIsConnected] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state: any) => {
+      setIsConnected(state.isConnected);
+    });
+
+    return () => unsubscribe();
+  }, []);
   return (
     <QueryClientProvider client={queryClient}>
       <MainProvider>
+        <View
+          style={{
+            width: '100%',
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            backgroundColor: 'white',
+          }}>
+          {isConnected ? (
+            <Text style={{color: 'white', fontFamily: 'Poppins-Medium'}}>
+              Online
+            </Text>
+          ) : (
+            <Text style={{color: '#7c7c7c', fontFamily: 'Poppins-Medium'}}>
+              You are currently browsing offline
+              <Icon name="ban" size={15} color="#000" />
+            </Text>
+          )}
+        </View>
         <NavigationContainer>
           <ScreenStack.Navigator>
             <ScreenStack.Screen
