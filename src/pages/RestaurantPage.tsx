@@ -184,7 +184,7 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
         <View
           style={{
             flexDirection: 'row',
-            marginVertical: screenHeight(0.02),
+            marginBottom: screenHeight(0.02),
             alignItems: 'center',
             gap: 10,
           }}>
