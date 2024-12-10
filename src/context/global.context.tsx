@@ -32,7 +32,7 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
   const {data, isLoading, refetch, isFetching, error} = useQuery({
     queryKey: ['GetRestaurantsQuery'],
     queryFn: () => ApiService.GetRestaurantsQuery(),
-    //enabled: false,
+    enabled: false,
   });
 
   const getLastData = () => {
