@@ -45,18 +45,20 @@ function Home(): React.JSX.Element {
         contentInsetAdjustmentBehavior="automatic"
         showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Restaurants Valley</Text>
-        <FlatList
-          data={lastData}
-          style={styles.cardDisplaySection}
-          renderItem={({item}) => (
-            <View>
-              <ProductCard {...item} />
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
+        {loading ? null : (
+          <FlatList
+            data={lastData}
+            style={styles.cardDisplaySection}
+            renderItem={({item}) => (
+              <View>
+                <ProductCard {...item} />
+              </View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        )}
         {loading && (
           <FlatList
             data={[1, 2, 4, 5, 6, 6]}
@@ -72,9 +74,7 @@ function Home(): React.JSX.Element {
           />
         )}
         <Text style={styles.title}>Last Viewed</Text>
-        {loading ? (
-          <Text></Text>
-        ) : (
+        {loading ? null : (
           <FlatList
             data={viewedData}
             style={styles.cardDisplaySection}
