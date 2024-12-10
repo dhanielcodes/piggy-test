@@ -57,7 +57,7 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
     },
     validationSchema: Yup.object().shape({
       review: Yup.string().required('leave a review'),
-      rating: Yup.string().required('rates restaurant'),
+      rating: Yup.string().required('rate restaurant'),
     }),
     onSubmit: values => {
       setData({
@@ -65,6 +65,7 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
         reviewsList: [
           {
             id: review?.id ? review?.id : data?.reviewsList?.length + 1,
+            isMe: true,
             ...values,
           },
           ...data?.reviewsList?.filter(item => item?.id !== review?.id),
@@ -78,6 +79,7 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
               reviewsList: [
                 {
                   id: review?.id ? review?.id : data?.reviewsList?.length + 1,
+                  isMe: true,
                   ...values,
                 },
                 ...data?.reviewsList?.filter(item => item?.id !== review?.id),
@@ -342,7 +344,12 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
           <View>
             {data?.reviewsList?.map(
               (
-                item: {id: number; review: string; rating: number},
+                item: {
+                  id: number;
+                  review: string;
+                  rating: number;
+                  isMe: boolean;
+                },
                 index: number,
               ) => {
                 return (
@@ -363,30 +370,34 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
                       {item?.review}
                     </Text>
                     <View style={{flexDirection: 'row', gap: 10}}>
-                      <Icon
-                        name="pencil"
-                        onPress={() => {
-                          setReview(item);
-                          formik.setFieldValue('review', item?.review);
-                          formik.setFieldValue('rating', item?.rating);
-                          setModalVisible(true);
-                        }}
-                        size={15}
-                        color="#000"
-                      />
-                      <Icon
-                        onPress={() => {
-                          setData({
-                            ...restaurantData,
-                            reviewsList: data?.reviewsList?.filter(
-                              review => review?.id !== item?.id,
-                            ),
-                          });
-                        }}
-                        name="remove"
-                        size={15}
-                        color="#000"
-                      />
+                      {item?.isMe ? (
+                        <Icon
+                          name="pencil"
+                          onPress={() => {
+                            setReview(item);
+                            formik.setFieldValue('review', item?.review);
+                            formik.setFieldValue('rating', item?.rating);
+                            setModalVisible(true);
+                          }}
+                          size={15}
+                          color="#000"
+                        />
+                      ) : null}
+                      {item?.isMe ? (
+                        <Icon
+                          onPress={() => {
+                            setData({
+                              ...restaurantData,
+                              reviewsList: data?.reviewsList?.filter(
+                                review => review?.id !== item?.id,
+                              ),
+                            });
+                          }}
+                          name="remove"
+                          size={15}
+                          color="#000"
+                        />
+                      ) : null}
                     </View>
                   </View>
                 );

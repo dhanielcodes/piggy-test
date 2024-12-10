@@ -30,10 +30,27 @@ const ScreenStack = createNativeStackNavigator<MainStackParamList>();
 
 function App(): React.JSX.Element {
   const [isConnected, setIsConnected] = useState(true);
+  const [synchronizeState, setSynchronizeState] = useState(true);
+  const [synchronize, setSynchronize] = useState(
+    'Data Synchronization in process',
+  );
+
+  const synchronizeData = async () => {
+    setTimeout(() => {
+      setSynchronize('Data Synchronized');
+    }, 2000);
+    setTimeout(() => {
+      setSynchronizeState(false);
+    }, 3000);
+  };
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state: any) => {
       setIsConnected(state.isConnected);
+      if (state.isConnected) {
+        setSynchronizeState(true);
+        synchronizeData();
+      }
     });
 
     return () => unsubscribe();
@@ -50,12 +67,17 @@ function App(): React.JSX.Element {
           }}>
           {isConnected ? (
             <Text style={{color: 'white', fontFamily: 'Poppins-Medium'}}>
-              Online
+              Online{' '}
+              {synchronizeState ? (
+                <Text style={{fontFamily: 'Poppins-Medium'}}>
+                  {synchronize}
+                </Text>
+              ) : null}
             </Text>
           ) : (
             <Text style={{color: '#7c7c7c', fontFamily: 'Poppins-Medium'}}>
-              You are currently browsing offline
-              <Icon name="ban" size={15} color="#000" />
+              You are currently browsing offline{' '}
+              <Icon name="ban" size={15} color="#7c7c7c" />
             </Text>
           )}
         </View>

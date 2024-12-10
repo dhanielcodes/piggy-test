@@ -8,6 +8,7 @@ export interface RestaurantSchema {
         id:number;
         review:string;
         rating:number;
+        isMe:boolean,
     }[];
     favorite: boolean;
     'photo': {

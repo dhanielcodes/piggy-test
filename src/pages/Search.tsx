@@ -143,6 +143,8 @@ function Search(): React.JSX.Element {
           horizontal
           showsHorizontalScrollIndicator={false}
         />
+
+        <Text style={styles.title}>Search</Text>
         {loading && (
           <FlatList
             data={[1, 2, 4, 5, 6, 6]}
@@ -157,57 +159,59 @@ function Search(): React.JSX.Element {
             showsHorizontalScrollIndicator={false}
           />
         )}
-        <Text style={styles.title}>Search</Text>
-        <FlatList
-          data={
-            formik.values.search && formik.values.rating
-              ? lastData
-                  ?.filter((item: any) =>
+        {loading ? null : (
+          <FlatList
+            data={
+              formik.values.search && formik.values.rating
+                ? lastData
+                    ?.filter((item: any) =>
+                      item?.name.toLowerCase()?.includes(formik.values.search),
+                    )
+                    ?.filter(
+                      (item: any) =>
+                        Number(item?.rating) === formik.values.rating,
+                    )
+                : formik.values.search
+                ? lastData?.filter((item: any) =>
                     item?.name.toLowerCase()?.includes(formik.values.search),
                   )
-                  ?.filter(
+                : formik.values.rating
+                ? lastData?.filter(
                     (item: any) =>
                       Number(item?.rating) === formik.values.rating,
                   )
-              : formik.values.search
-              ? lastData?.filter((item: any) =>
-                  item?.name.toLowerCase()?.includes(formik.values.search),
-                )
-              : formik.values.rating
-              ? lastData?.filter(
-                  (item: any) => Number(item?.rating) === formik.values.rating,
-                )
-              : []
-          }
-          style={styles.cardDisplaySection}
-          renderItem={({item}) => (
-            <View>
-              <ProductCard {...item} />
-            </View>
-          )}
-          ListEmptyComponent={() => {
-            return (
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  alignContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontFamily: 'Poppins-Light',
-                  }}>
-                  Search for a restaurant{' '}
-                  <Icon name="map-pin" size={15} color="#000" />
-                </Text>
+                : []
+            }
+            style={styles.cardDisplaySection}
+            renderItem={({item}) => (
+              <View>
+                <ProductCard {...item} />
               </View>
-            );
-          }}
-          keyExtractor={(item, index) => index.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
+            )}
+            ListEmptyComponent={() => {
+              return (
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontFamily: 'Poppins-Light',
+                    }}>
+                    Search for a restaurant{' '}
+                    <Icon name="map-pin" size={15} color="#000" />
+                  </Text>
+                </View>
+              );
+            }}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

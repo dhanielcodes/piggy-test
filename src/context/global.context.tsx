@@ -32,7 +32,7 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
   const {data, isLoading, refetch, isFetching, error} = useQuery({
     queryKey: ['GetRestaurantsQuery'],
     queryFn: () => ApiService.GetRestaurantsQuery(),
-    enabled: false,
+    //enabled: false,
   });
 
   const getLastData = () => {
@@ -86,12 +86,19 @@ export const MainProvider: React.FC<Context> = ({children}: Context) => {
               review:
                 'Very Good restaurant, liked the fine Dining!, the service time was amazing',
               rating: 5,
+              isMe: false,
             },
-            {id: 2, review: 'Not Bad for a new restaurant', rating: 4},
+            {
+              id: 2,
+              review: 'Not Bad for a new restaurant',
+              rating: 4,
+              isMe: false,
+            },
             {
               id: 3,
               review: 'Not Bad for a new restaurant that just opened yesterday',
               rating: 3,
+              isMe: false,
             },
           ],
           favorite: false,
