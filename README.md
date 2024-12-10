@@ -43,7 +43,17 @@ This is a mobile app built using **React Native** to display a list of restauran
 
 ## 📚 **Project Structure**
 
-├── src │ ├── components # Reusable UI components │ ├── context # Context API for state management │ ├── screens # Screens for Home, Search, Favorites, Restaurant Details, etc. │ ├── services # API calls and AsyncStorage functions │ ├── utils # Helper functions and utilities │ └── assets # Images, icons, and other static files └── App.js # Main entry point of the app
+├── src
+│ ├── components # Reusable UI components
+│ ├── context # Context API for state management
+│ ├── pages # Pages for Home, Search, Favorites, Restaurant Details, etc.
+│ ├── service.ts # API calls
+│ ├── storage.ts # AsyncStorage functions
+│ ├── navigation # Main Navigation Stack instance
+│ ├── types # Other type declarations are here
+│ ├── utils # Helper functions and utilities and axios instance
+│ └── assets # Images, icons, fonts and other static files
+└── App.js # Main entry point of the app
 
 ---
 
