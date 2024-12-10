@@ -72,37 +72,41 @@ function Home(): React.JSX.Element {
           />
         )}
         <Text style={styles.title}>Last Viewed</Text>
-        <FlatList
-          data={viewedData}
-          style={styles.cardDisplaySection}
-          renderItem={({item}) => (
-            <View>
-              <ProductCard {...item} />
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          ListEmptyComponent={() => {
-            return (
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  alignContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontFamily: 'Poppins-Light',
-                  }}>
-                  You haven't viewed any restaurant{' '}
-                  <Icon name="map-pin" size={15} color="#000" />
-                </Text>
+        {loading ? (
+          <Text></Text>
+        ) : (
+          <FlatList
+            data={viewedData}
+            style={styles.cardDisplaySection}
+            renderItem={({item}) => (
+              <View>
+                <ProductCard {...item} />
               </View>
-            );
-          }}
-        />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            ListEmptyComponent={() => {
+              return (
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontFamily: 'Poppins-Light',
+                    }}>
+                    You haven't viewed any restaurant{' '}
+                    <Icon name="map-pin" size={15} color="#000" />
+                  </Text>
+                </View>
+              );
+            }}
+          />
+        )}
         {loading && (
           <FlatList
             data={[1, 2, 4, 5, 6, 6]}

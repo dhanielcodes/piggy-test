@@ -16,17 +16,15 @@ import {screenHeight, screenWidth} from '@src/utils/Sizes';
 import {useFormik} from 'formik';
 import React, {useContext, useEffect, useState} from 'react';
 import {
-  Image,
-  Modal,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import StarRating, {StarIcon} from 'react-native-star-rating-widget';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Yup from 'yup';
@@ -199,9 +197,10 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
           <Icon name="map-pin" size={15} color="#000" /> {data?.address}
         </Text>
 
-        <Image
+        <FastImage
           source={{
             uri: data.photo.images.medium.url,
+            cache: FastImage.cacheControl.cacheOnly,
           }}
           style={{
             width: '100%',
