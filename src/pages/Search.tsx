@@ -68,7 +68,7 @@ function Search(): React.JSX.Element {
   }, []);
   return (
     <SafeAreaView style={backgroundStyle}>
-      <StatusBar backgroundColor={backgroundStyle.backgroundColor} />
+      <StatusBar />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.top}>
           <FormInput
