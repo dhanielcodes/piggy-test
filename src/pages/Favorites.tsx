@@ -43,37 +43,39 @@ function Favorites(): React.JSX.Element {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         <Text style={styles.title}>Favorites</Text>
-        <FlatList
-          data={favoriteList}
-          style={styles.cardDisplaySection}
-          renderItem={({item}) => (
-            <View>
-              <ProductCard {...item} />
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          ListEmptyComponent={() => {
-            return (
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  alignContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontFamily: 'Poppins-Light',
-                  }}>
-                  You haven't picked any favorites{' '}
-                  <Icon name="map-pin" size={15} color="#000" />
-                </Text>
+        {loading ? null : (
+          <FlatList
+            data={favoriteList}
+            style={styles.cardDisplaySection}
+            renderItem={({item}) => (
+              <View>
+                <ProductCard {...item} />
               </View>
-            );
-          }}
-        />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            ListEmptyComponent={() => {
+              return (
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontFamily: 'Poppins-Light',
+                    }}>
+                    You haven't picked any favorites{' '}
+                    <Icon name="map-pin" size={15} color="#000" />
+                  </Text>
+                </View>
+              );
+            }}
+          />
+        )}
         {loading && (
           <FlatList
             data={[1, 2, 4, 5, 6, 6]}
