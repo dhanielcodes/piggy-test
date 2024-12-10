@@ -39,22 +39,6 @@ This is a mobile app built using **React Native** to display a list of restauran
 - **AsyncStorage**: For persistent storage and caching of restaurant list data to enable offline browsing.
 - **react-native-fast-image**: For efficient image caching to enhance performance.
 
-<!-- ## 📚 **Project Structure**
-
-├── src
-│ ├── components # Reusable UI components
-│ ├── context # Context API for state management
-│ ├── pages # Pages for Home, Search, Favorites, Restaurant Details, etc.
-│ ├── service.ts # API calls
-│ ├── storage.ts # AsyncStorage functions
-│ ├── navigation # Main Navigation Stack instance
-│ ├── types # Other type declarations are here
-│ ├── utils # Helper functions and utilities and axios instance
-│ └── assets # Images, icons, fonts and other static files
-└── App.js # Main entry point of the app
-
---- -->
-
 ## 🚀 **How It Works**
 
 1. **Home Page**:
