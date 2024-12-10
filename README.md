@@ -1,8 +1,124 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 📱 Mobile Restaurant Listing App
+
+This is a mobile app built using **React Native** to display a list of restaurants with features like browsing, filtering, favoriting, offline access, and CRUD operations for restaurant reviews. The app provides a seamless experience for users to explore and interact with restaurant listings.
+
+---
+
+## ✨ **Features**
+
+- **Home Page**
+
+  - View a list of all restaurants.
+  - See a "Last Seen" section that shows recently viewed restaurants.
+
+- **Search & Filter**
+
+  - Search for restaurants by name.
+  - Filter restaurants based on their rating.
+
+- **Favorites**
+
+  - Favorite/unfavorite restaurants and view them on a dedicated page.
+
+- **Offline Browsing**
+
+  - Access previously loaded restaurant data offline using caching.
+
+- **Restaurant Details**
+  - View detailed information about a specific restaurant.
+  - Read customer reviews for each restaurant.
+  - Add, edit, and delete reviews for a restaurant.
+
+---
+
+## 🛠️ **Tech Stack**
+
+- **React Native**: For building cross-platform mobile applications.
+- **Stylesheets**: For custom styling of the app components.
+- **Context API**: For state management across the app.
+- **AsyncStorage**: For persistent storage and caching of restaurant list data to enable offline browsing.
+- **react-native-fast-image**: For efficient image caching to enhance performance.
+
+---
+
+## 📚 **Project Structure**
+
+├── src │ ├── components # Reusable UI components │ ├── context # Context API for state management │ ├── screens # Screens for Home, Search, Favorites, Restaurant Details, etc. │ ├── services # API calls and AsyncStorage functions │ ├── utils # Helper functions and utilities │ └── assets # Images, icons, and other static files └── App.js # Main entry point of the app
+
+---
+
+## 🚀 **How It Works**
+
+1. **Home Page**:
+
+   - Displays a list of all restaurants.
+   - Recently viewed restaurants are listed in a "Last Seen" section.
+   - Data is cached using **AsyncStorage** to enable offline browsing.
+
+2. **Favorites**:
+
+   - Users can favorite a restaurant from the Home, Details, or any other page displaying the restaurant.
+   - The favorite status is stored in **AsyncStorage** and synced across relevant lists.
+
+3. **Restaurant Details & Reviews**:
+
+   - Users can view restaurant information and customer reviews.
+   - CRUD (Create, Read, Update, Delete) operations are enabled for reviews.
+   - Updates are reflected in all pages where the restaurant appears.
+
+4. **Search & Filter**:
+   - Users can search for restaurants by name.
+   - Filtering by restaurant rating is also possible.
+
+---
+
+## 💡 **Thought Process**
+
+1. **Modular Design**:
+
+   - Components were broken down into reusable UI components like **RestaurantCard**, **ReviewForm**, and **FilterBar**.
+   - Pages such as Home, Search, Favorites, and Restaurant Details were each given a dedicated screen file for better organization.
+
+2. **Data Persistence**:
+
+   - **AsyncStorage** was used to cache the restaurant list and favorites, ensuring data persists between sessions and supports offline access.
+   - Data from API calls is cached and then retrieved when offline.
+
+3. **State Management**:
+
+   - The **Context API** was used to manage global state (like favorite status) across different screens without the need for prop drilling.
+
+4. **Image Optimization**:
+   - Images were loaded with **react-native-fast-image**, which provides better performance and caching compared to the default **Image** component.
+
+---
+
+## ⚠️ **Challenges Faced**
+
+### **1. Managing the Favorite Feature**
+
+**Problem**:  
+The "favorite" status for a restaurant had to be updated in multiple places (Home, Favorites, Last Seen, and Details pages). Updating the restaurant's favorite status in one place required that it be reflected in all instances of the same restaurant object.
+
+**Solution**:
+
+- When a restaurant's favorite status changes, the app identifies all instances of that restaurant object across all pages.
+- Using **map()**, the app locates the restaurant in each array (Favorites, Last Seen, etc.) and updates its status.
+- This solution was later adapted for CRUD operations on the restaurant reviews, making it easy to update reviews in multiple places.
+
+---
+
+## 📦 **Installation**
+
+1. **Clone this repository:**
+   ```bash
+   git clone https://github.com/dhanielcodes/piggy-test.git
+   cd piggy-test
+   ```
 
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
 ## Step 1: Start the Metro Server
 
@@ -41,39 +157,3 @@ npm run ios
 # OR using Yarn
 yarn ios
 ```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
