@@ -39,9 +39,7 @@ This is a mobile app built using **React Native** to display a list of restauran
 - **AsyncStorage**: For persistent storage and caching of restaurant list data to enable offline browsing.
 - **react-native-fast-image**: For efficient image caching to enhance performance.
 
----
-
-## 📚 **Project Structure**
+<!-- ## 📚 **Project Structure**
 
 ├── src
 │ ├── components # Reusable UI components
@@ -55,7 +53,7 @@ This is a mobile app built using **React Native** to display a list of restauran
 │ └── assets # Images, icons, fonts and other static files
 └── App.js # Main entry point of the app
 
----
+--- -->
 
 ## 🚀 **How It Works**
 
@@ -86,13 +84,12 @@ This is a mobile app built using **React Native** to display a list of restauran
 
 1. **Modular Design**:
 
-   - Components were broken down into reusable UI components like **RestaurantCard**, **ReviewForm**, and **FilterBar**.
+   - Components were broken down into reusable UI components like **RestaurantCard**, **ReviewModal**, **SkeletonCard**, and **FormInput**.
    - Pages such as Home, Search, Favorites, and Restaurant Details were each given a dedicated screen file for better organization.
 
 2. **Data Persistence**:
 
    - **AsyncStorage** was used to cache the restaurant list and favorites, ensuring data persists between sessions and supports offline access.
-   - Data from API calls is cached and then retrieved when offline.
 
 3. **State Management**:
 
