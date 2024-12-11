@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { API_URL } from '@env';
+import {API_URL} from '@env';
 
 export const Axios = axios.create({
   baseURL: API_URL,
 });
 
-Axios.interceptors.request.use((config) => {
+Axios.interceptors.request.use(config => {
   //config.headers.Authorization = 'Basic RGhhbmllbDphZGU=';
   //config.headers['Content-Type'] = ;
   return config;
@@ -27,5 +27,5 @@ Axios.interceptors.response.use(
     } else {
       return Promise.reject(error);
     }
-  }
+  },
 );

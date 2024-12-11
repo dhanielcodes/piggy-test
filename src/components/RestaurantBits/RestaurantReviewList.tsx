@@ -6,7 +6,76 @@ import {StyleSheet, Text, View} from 'react-native';
 import StarRating from 'react-native-star-rating-widget';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-interface RestaurantReviewListInteface {
+interface RestaurantReviewListInterface {
+  data?: RestaurantSchema;
+  setData?: any;
+  setModalVisible?: any;
+  setReview?: any;
+  formik?: any;
+  restaurantData?: RestaurantSchema;
+  item?: any;
+}
+
+const ReviewItemComponent = ({
+  formik,
+  setModalVisible,
+  setReview,
+  setData,
+  data,
+  restaurantData,
+  item,
+}: RestaurantReviewListInterface) => {
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      }}>
+      <Text style={styles.review}>
+        <StarRating
+          rating={item.rating}
+          onChange={() => {}}
+          maxStars={5}
+          starSize={20}
+        />
+        {'                '}
+        {item?.review}
+      </Text>
+      <View style={{flexDirection: 'row', gap: 10}}>
+        {item?.isMe ? (
+          <Icon
+            name="pencil"
+            onPress={() => {
+              setReview(item);
+              formik.setFieldValue('review', item?.review);
+              formik.setFieldValue('rating', item?.rating);
+              setModalVisible(true);
+            }}
+            size={15}
+            color="#000"
+          />
+        ) : null}
+        {item?.isMe ? (
+          <Icon
+            onPress={() => {
+              setData({
+                ...restaurantData,
+                reviewsList: data?.reviewsList?.filter(
+                  review => review?.id !== item?.id,
+                ),
+              });
+            }}
+            name="remove"
+            size={15}
+            color="#000"
+          />
+        ) : null}
+      </View>
+    </View>
+  );
+};
+
+interface RestaurantReviewListInterface {
   data?: RestaurantSchema;
   setData?: any;
   setModalVisible?: any;
@@ -22,7 +91,7 @@ export default function RestaurantReviewList({
   setReview,
   setData,
   restaurantData,
-}: RestaurantReviewListInteface) {
+}: RestaurantReviewListInterface) {
   return (
     <View>
       {data?.reviewsList?.map(
@@ -36,53 +105,16 @@ export default function RestaurantReviewList({
           index: number,
         ) => {
           return (
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-              key={index}>
-              <Text style={styles.review}>
-                <StarRating
-                  rating={item.rating}
-                  onChange={() => {}}
-                  maxStars={5}
-                  starSize={20}
-                />
-                {'                '}
-                {item?.review}
-              </Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                {item?.isMe ? (
-                  <Icon
-                    name="pencil"
-                    onPress={() => {
-                      setReview(item);
-                      formik.setFieldValue('review', item?.review);
-                      formik.setFieldValue('rating', item?.rating);
-                      setModalVisible(true);
-                    }}
-                    size={15}
-                    color="#000"
-                  />
-                ) : null}
-                {item?.isMe ? (
-                  <Icon
-                    onPress={() => {
-                      setData({
-                        ...restaurantData,
-                        reviewsList: data?.reviewsList?.filter(
-                          review => review?.id !== item?.id,
-                        ),
-                      });
-                    }}
-                    name="remove"
-                    size={15}
-                    color="#000"
-                  />
-                ) : null}
-              </View>
-            </View>
+            <ReviewItemComponent
+              key={index}
+              data={data}
+              formik={formik}
+              item={item}
+              restaurantData={restaurantData}
+              setData={setData}
+              setModalVisible={setModalVisible}
+              setReview={setReview}
+            />
           );
         },
       )}

@@ -23,34 +23,20 @@ import SearchHistoryTab from '@src/components/SearchBits/SearchHistoryTab';
 import LoadingStack from '@src/components/LoadingStack';
 import EmptyState from '@src/components/EmptyState';
 import {RestaurantSchema} from '@src/types/restaurant';
-import {formikConfig} from '@src/controller/SearchController';
+import {
+  formikConfig,
+  getListSearchData,
+} from '@src/controller/SearchController';
 
 interface ListInterface {
   list: Array<RestaurantSchema>;
   formik: any;
 }
-const FavoriteListComponent = ({list, formik}: ListInterface) => {
+const ListComponent = ({list, formik}: ListInterface) => {
+  const listData: Array<RestaurantSchema> = getListSearchData(list, formik);
   return (
     <FlatList
-      data={
-        formik.values.search && formik.values.rating
-          ? list
-              ?.filter((item: any) =>
-                item?.name.toLowerCase()?.includes(formik.values.search),
-              )
-              ?.filter(
-                (item: any) => Number(item?.rating) === formik.values.rating,
-              )
-          : formik.values.search
-          ? list?.filter((item: any) =>
-              item?.name.toLowerCase()?.includes(formik.values.search),
-            )
-          : formik.values.rating
-          ? list?.filter(
-              (item: any) => Number(item?.rating) === formik.values.rating,
-            )
-          : []
-      }
+      data={listData}
       style={styles.cardDisplaySection}
       renderItem={({item}) => (
         <View>
@@ -108,9 +94,7 @@ function Search(): React.JSX.Element {
 
         <Text style={styles.title}>Search</Text>
         <LoadingStack loading={loading} />
-        {loading ? null : (
-          <FavoriteListComponent formik={formik} list={lastData} />
-        )}
+        {loading ? null : <ListComponent formik={formik} list={lastData} />}
       </ScrollView>
     </SafeAreaView>
   );
