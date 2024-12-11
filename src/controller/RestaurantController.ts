@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { ReviewSchema } from '@src/constants/Schema';
 import { storeDataObject } from '@src/storage';
 import { RestaurantSchema } from '@src/types/restaurant';
 
-export const onSubmitReview = (setData:any,data:any,values:any,review:any,lastData:any,getLastViewed:any,viewedData:any,getFavorites:any,getLastData:any) => {
+const onSubmitReview = (setData:any,data:any,values:any,review:any,lastData:any,getLastViewed:any,viewedData:any,getFavorites:any,getLastData:any) => {
     setData({
         ...data,
         reviewsList: [
@@ -103,3 +104,48 @@ export const onFavoriteRestaurantHeader = (getFavorites:any,lastData:any,getLast
 };
 
 
+export const formikConfigAddReview = (setData:any,data:any,review:any,lastData:any,getLastViewed:any,viewedData:any,getFavorites:any,getLastData:any) => {
+  return {
+    initialValues: {
+      review: '',
+      rating: 0,
+    },
+    validationSchema: ReviewSchema,
+    onSubmit: (values:any) => {
+      onSubmitReview(
+        setData,
+        data,
+        values,
+        review,
+        lastData,
+        getLastViewed,
+        viewedData,
+        getFavorites,
+        getLastData,
+      );
+    },
+  };
+};
+
+export const formikConfigEditReview = (setData:any,data:any,review:any,lastData:any,getLastViewed:any,viewedData:any,getFavorites:any,getLastData:any) => {
+  return {
+    initialValues: {
+      review: '',
+      rating: 0,
+    },
+    validationSchema: ReviewSchema,
+    onSubmit: (values:any) => {
+      onSubmitReview(
+        setData,
+        data,
+        values,
+        review,
+        lastData,
+        getLastViewed,
+        viewedData,
+        getFavorites,
+        getLastData,
+      );
+    },
+  };
+};

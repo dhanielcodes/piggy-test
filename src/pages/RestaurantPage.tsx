@@ -8,7 +8,10 @@ import ReviewForm from '@src/components/RestaurantBits/ReviewForm';
 import Colors from '@src/config/Colors';
 import {ReviewSchema} from '@src/constants/Schema';
 import MainContext, {ContextType} from '@src/context/global.context';
-import {onSubmitReview} from '@src/controller/RestaurantController';
+import {
+  formikConfigAddReview,
+  formikConfigEditReview,
+} from '@src/controller/RestaurantController';
 import {storeDataObject} from '@src/storage';
 import {RestaurantSchema} from '@src/types/restaurant';
 import {screenHeight, screenWidth} from '@src/utils/Sizes';
@@ -37,46 +40,31 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
   const [data, setData] = useState<RestaurantSchema>(restaurantData);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [review, setReview] = useState<any>({});
-  const formik = useFormik({
-    initialValues: {
-      review: '',
-      rating: 0,
-    },
-    validationSchema: ReviewSchema,
-    onSubmit: values => {
-      onSubmitReview(
-        setData,
-        data,
-        values,
-        review,
-        lastData,
-        getLastViewed,
-        viewedData,
-        getFavorites,
-        getLastData,
-      );
-    },
-  });
-  const formikEditReview = useFormik({
-    initialValues: {
-      review: '',
-      rating: 0,
-    },
-    validationSchema: ReviewSchema,
-    onSubmit: values => {
-      onSubmitReview(
-        setData,
-        data,
-        values,
-        review,
-        lastData,
-        getLastViewed,
-        viewedData,
-        getFavorites,
-        getLastData,
-      );
-    },
-  });
+
+  const formik = useFormik(
+    formikConfigAddReview(
+      setData,
+      data,
+      review,
+      lastData,
+      getLastViewed,
+      viewedData,
+      getFavorites,
+      getLastData,
+    ),
+  );
+  const formikEditReview = useFormik(
+    formikConfigEditReview(
+      setData,
+      data,
+      review,
+      lastData,
+      getLastViewed,
+      viewedData,
+      getFavorites,
+      getLastData,
+    ),
+  );
 
   useEffect(() => {
     storeDataObject('lastViewed', [
