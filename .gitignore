@@ -23,6 +23,7 @@ DerivedData
 **/.xcode.env.local
 .yarn
 .env
+.jest
 # Android/IntelliJ
 #
 build/
