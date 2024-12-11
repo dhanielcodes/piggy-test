@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable react-native/no-inline-styles */
 import Colors from '@src/config/Colors';
 import {getDataObject, storeDataObject} from '@src/storage';
 import {screenHeight, screenWidth} from '@src/utils/Sizes';
 import React from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import EmptyState from '../EmptyState';
 
 interface SearchHistoryTabInterface {
   formik?: any;
@@ -56,22 +56,7 @@ export default function SearchHistoryTab({
         )}
         keyExtractor={(item, index) => index.toString()}
         ListEmptyComponent={() => {
-          return (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                alignContent: 'center',
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontFamily: 'Poppins-Light',
-                }}>
-                Search history appears here{' '}
-              </Text>
-            </View>
-          );
+          return <EmptyState text="Search history appears here" />;
         }}
         horizontal
         showsHorizontalScrollIndicator={false}

@@ -35,7 +35,7 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
   const restaurantData: RestaurantSchema = route.params;
 
   const [data, setData] = useState<RestaurantSchema>(restaurantData);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [review, setReview] = useState<any>({});
   const formik = useFormik({
     initialValues: {

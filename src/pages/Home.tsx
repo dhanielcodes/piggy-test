@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useContext, useEffect} from 'react';
@@ -19,8 +18,33 @@ import {screenHeight, screenWidth} from '@src/utils/Sizes';
 import ProductCard from '@src/components/ProductCard';
 import MainContext, {ContextType} from '@src/context/global.context';
 import {storeDataObject} from '@src/storage';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import LoadingStack from '@src/components/LoadingStack';
+import EmptyState from '@src/components/EmptyState';
+import {RestaurantSchema} from '@src/types/restaurant';
+
+interface ListInterface {
+  list: Array<RestaurantSchema>;
+  emptyText?: string;
+}
+const ListComponent = ({list, emptyText}: ListInterface) => {
+  return (
+    <FlatList
+      data={list}
+      style={styles.cardDisplaySection}
+      renderItem={({item}) => (
+        <View>
+          <ProductCard {...item} />
+        </View>
+      )}
+      keyExtractor={(item, index) => index.toString()}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      ListEmptyComponent={() => {
+        return <EmptyState text={emptyText} />;
+      }}
+    />
+  );
+};
 
 function Home(): React.JSX.Element {
   const {lastData, viewedData, getLastViewed, loading, getLastData}: any =
@@ -43,53 +67,13 @@ function Home(): React.JSX.Element {
         contentInsetAdjustmentBehavior="automatic"
         showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Restaurants Valley</Text>
-        {loading ? null : (
-          <FlatList
-            data={lastData}
-            style={styles.cardDisplaySection}
-            renderItem={({item}) => (
-              <View>
-                <ProductCard {...item} />
-              </View>
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        )}
+        {loading ? null : <ListComponent list={lastData} />}
         <LoadingStack loading={loading} />
         <Text style={styles.title}>Last Viewed</Text>
         {loading ? null : (
-          <FlatList
-            data={viewedData}
-            style={styles.cardDisplaySection}
-            renderItem={({item}) => (
-              <View>
-                <ProductCard {...item} />
-              </View>
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            ListEmptyComponent={() => {
-              return (
-                <View
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    alignContent: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      fontFamily: 'Poppins-Light',
-                    }}>
-                    You haven't viewed any restaurant{' '}
-                    <Icon name="map-pin" size={15} color="#000" />
-                  </Text>
-                </View>
-              );
-            }}
+          <ListComponent
+            emptyText="You haven't viewed any restaurant"
+            list={viewedData}
           />
         )}
         <LoadingStack loading={loading} />

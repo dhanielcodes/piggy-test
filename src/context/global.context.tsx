@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {ApiService} from '@src/service';
 import {getDataObject, storeDataObject} from '@src/storage';
+import {RestaurantSchema} from '@src/types/restaurant';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 
@@ -24,10 +25,10 @@ const MainContext = createContext<ContextType | null>(null);
 
 export const MainProvider: React.FC<Context> = ({children}: Context) => {
   // Use this type in your state initialization
-  const [lastData, setLastData] = useState([]);
-  const [viewedData, setViewedData] = useState([]);
-  const [favoriteList, setFavoriteList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [lastData, setLastData] = useState<Array<RestaurantSchema>>([]);
+  const [viewedData, setViewedData] = useState<Array<RestaurantSchema>>([]);
+  const [favoriteList, setFavoriteList] = useState<Array<RestaurantSchema>>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const {data, isLoading, refetch, isFetching, error} = useQuery({
     queryKey: ['GetRestaurantsQuery'],

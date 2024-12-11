@@ -29,9 +29,9 @@ const queryClient = new QueryClient({
 const ScreenStack = createNativeStackNavigator<MainStackParamList>();
 
 function App(): React.JSX.Element {
-  const [isConnected, setIsConnected] = useState(true);
-  const [synchronizeState, setSynchronizeState] = useState(true);
-  const [synchronize, setSynchronize] = useState(
+  const [isConnected, setIsConnected] = useState<boolean>(true);
+  const [synchronizeState, setSynchronizeState] = useState<boolean>(true);
+  const [synchronize, setSynchronize] = useState<string>(
     'Data Synchronization in process',
   );
 

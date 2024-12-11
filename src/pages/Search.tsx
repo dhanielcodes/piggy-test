@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useContext, useEffect, useState} from 'react';
@@ -19,10 +18,54 @@ import {getDataObject, storeDataObject} from '@src/storage';
 import {screenHeight, screenWidth} from '@src/utils/Sizes';
 import ProductCard from '@src/components/ProductCard';
 import MainContext, {ContextType} from '@src/context/global.context';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import SearchFilterForm from '@src/components/SearchBits/SearchFilterForm';
 import SearchHistoryTab from '@src/components/SearchBits/SearchHistoryTab';
 import LoadingStack from '@src/components/LoadingStack';
+import EmptyState from '@src/components/EmptyState';
+import {RestaurantSchema} from '@src/types/restaurant';
+import {formikConfig} from '@src/controller/SearchController';
+
+interface ListInterface {
+  list: Array<RestaurantSchema>;
+  formik: any;
+}
+const FavoriteListComponent = ({list, formik}: ListInterface) => {
+  return (
+    <FlatList
+      data={
+        formik.values.search && formik.values.rating
+          ? list
+              ?.filter((item: any) =>
+                item?.name.toLowerCase()?.includes(formik.values.search),
+              )
+              ?.filter(
+                (item: any) => Number(item?.rating) === formik.values.rating,
+              )
+          : formik.values.search
+          ? list?.filter((item: any) =>
+              item?.name.toLowerCase()?.includes(formik.values.search),
+            )
+          : formik.values.rating
+          ? list?.filter(
+              (item: any) => Number(item?.rating) === formik.values.rating,
+            )
+          : []
+      }
+      style={styles.cardDisplaySection}
+      renderItem={({item}) => (
+        <View>
+          <ProductCard {...item} />
+        </View>
+      )}
+      ListEmptyComponent={() => {
+        return <EmptyState text="Search for a restaurant" />;
+      }}
+      keyExtractor={(item, index) => index.toString()}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+    />
+  );
+};
 
 function Search(): React.JSX.Element {
   const [history, setHistory] = useState<any>([]);
@@ -40,24 +83,13 @@ function Search(): React.JSX.Element {
       }
     });
   };
-
   const backgroundStyle = {
     backgroundColor: Colors.DEFAULT_WHITE,
     flex: 1,
     padding: 20,
   };
 
-  const formik = useFormik({
-    initialValues: {
-      search: '',
-      rating: 0,
-    },
-    onSubmit: (values?: any) => {
-      storeDataObject('history', [...history, values.search]).then(res => {
-        getHistory();
-      });
-    },
-  });
+  const formik = useFormik(formikConfig(getHistory, history));
 
   useEffect(() => {
     getHistory();
@@ -77,57 +109,7 @@ function Search(): React.JSX.Element {
         <Text style={styles.title}>Search</Text>
         <LoadingStack loading={loading} />
         {loading ? null : (
-          <FlatList
-            data={
-              formik.values.search && formik.values.rating
-                ? lastData
-                    ?.filter((item: any) =>
-                      item?.name.toLowerCase()?.includes(formik.values.search),
-                    )
-                    ?.filter(
-                      (item: any) =>
-                        Number(item?.rating) === formik.values.rating,
-                    )
-                : formik.values.search
-                ? lastData?.filter((item: any) =>
-                    item?.name.toLowerCase()?.includes(formik.values.search),
-                  )
-                : formik.values.rating
-                ? lastData?.filter(
-                    (item: any) =>
-                      Number(item?.rating) === formik.values.rating,
-                  )
-                : []
-            }
-            style={styles.cardDisplaySection}
-            renderItem={({item}) => (
-              <View>
-                <ProductCard {...item} />
-              </View>
-            )}
-            ListEmptyComponent={() => {
-              return (
-                <View
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    alignContent: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      fontFamily: 'Poppins-Light',
-                    }}>
-                    Search for a restaurant{' '}
-                    <Icon name="map-pin" size={15} color="#000" />
-                  </Text>
-                </View>
-              );
-            }}
-            keyExtractor={(item, index) => index.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
+          <FavoriteListComponent formik={formik} list={lastData} />
         )}
       </ScrollView>
     </SafeAreaView>

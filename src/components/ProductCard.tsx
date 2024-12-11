@@ -11,19 +11,14 @@ import {StarIcon} from 'react-native-star-rating-widget';
 import {storeDataObject} from '@src/storage';
 import MainContext, {ContextType} from '@src/context/global.context';
 import FastImage from 'react-native-fast-image';
+import {onFavoriteRestaurant} from '@src/controller/RestaurantController';
 
 export default function ProductCard(
   props: RestaurantSchema,
 ): React.JSX.Element {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
-  const {
-    viewedData,
-    getLastViewed,
-    favoriteList,
-    lastData,
-    getLastData,
-    getFavorites,
-  }: any = useContext(MainContext) as ContextType;
+  const {viewedData, getLastViewed, lastData, getLastData, getFavorites}: any =
+    useContext(MainContext) as ContextType;
 
   /* useEffect(() => {
   }, [data]); */
@@ -70,29 +65,14 @@ export default function ProductCard(
         </Text>
         <TouchableOpacity
           onPress={() => {
-            const updateList = lastData?.map((itm: RestaurantSchema) =>
-              itm?.id === props?.id ? {...itm, favorite: !itm?.favorite} : itm,
+            onFavoriteRestaurant(
+              getFavorites,
+              lastData,
+              getLastData,
+              viewedData,
+              getLastViewed,
+              props,
             );
-            storeDataObject(
-              'favorites',
-              updateList?.filter((itm: RestaurantSchema) => itm?.favorite),
-            ).then(res => {
-              getFavorites();
-            });
-            storeDataObject('restaurants', updateList).then(res => {
-              getLastData();
-            });
-
-            const updateLastViewed = updateList.filter(
-              (itm: RestaurantSchema) =>
-                viewedData
-                  ?.map((itmm: RestaurantSchema) => itmm?.id)
-                  .includes(itm.id),
-            );
-
-            storeDataObject('lastViewed', updateLastViewed).then(res => {
-              getLastViewed();
-            });
           }}>
           <StarIcon
             size={20}
@@ -141,10 +121,5 @@ const styles = StyleSheet.create({
     fontSize: screenWidth(0.028),
     color: Colors.BLACK,
     width: '100%',
-  },
-  plus: {
-    position: 'absolute',
-    bottom: 7,
-    right: -7,
   },
 });

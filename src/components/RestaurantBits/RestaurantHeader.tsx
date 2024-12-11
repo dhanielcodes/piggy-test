@@ -11,6 +11,7 @@ import {storeDataObject} from '@src/storage';
 import MainContext, {ContextType} from '@src/context/global.context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {StarIcon} from 'react-native-star-rating-widget';
+import {onFavoriteRestaurantHeader} from '@src/controller/RestaurantController';
 interface RestaurantHeadSchema {
   data?: RestaurantSchema;
   setData?: any;
@@ -69,30 +70,15 @@ export default function RestaurantHeader({
         </Text>
         <TouchableOpacity
           onPress={() => {
-            const updateList = lastData?.map((itm: RestaurantSchema) =>
-              itm?.id === data?.id ? {...itm, favorite: !itm?.favorite} : itm,
+            onFavoriteRestaurantHeader(
+              getFavorites,
+              lastData,
+              getLastData,
+              viewedData,
+              getLastViewed,
+              data,
+              setData,
             );
-            storeDataObject(
-              'favorites',
-              updateList?.filter((itm: RestaurantSchema) => itm?.favorite),
-            ).then(res => {
-              getFavorites();
-            });
-            storeDataObject('restaurants', updateList).then(res => {
-              getLastData();
-              setData({...data, favorite: !data?.favorite});
-            });
-
-            const updateLastViewed = updateList.filter(
-              (itm: RestaurantSchema) =>
-                viewedData
-                  ?.map((itmm: RestaurantSchema) => itmm?.id)
-                  .includes(itm.id),
-            );
-
-            storeDataObject('lastViewed', updateLastViewed).then(res => {
-              getLastViewed();
-            });
           }}>
           <StarIcon
             size={20}
