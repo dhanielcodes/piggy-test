@@ -8,6 +8,7 @@ import ReviewForm from '@src/components/RestaurantBits/ReviewForm';
 import Colors from '@src/config/Colors';
 import {ReviewSchema} from '@src/constants/Schema';
 import MainContext, {ContextType} from '@src/context/global.context';
+import {onSubmitReview} from '@src/controller/RestaurantController';
 import {storeDataObject} from '@src/storage';
 import {RestaurantSchema} from '@src/types/restaurant';
 import {screenHeight, screenWidth} from '@src/utils/Sizes';
@@ -43,49 +44,37 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
     },
     validationSchema: ReviewSchema,
     onSubmit: values => {
-      setData({
-        ...data,
-        reviewsList: [
-          {
-            id: review?.id ? review?.id : data?.reviewsList?.length + 1,
-            isMe: true,
-            ...values,
-          },
-          ...data?.reviewsList?.filter(item => item?.id !== review?.id),
-        ],
-      });
-
-      const updateList = lastData?.map((itm: RestaurantSchema) =>
-        itm?.id === data?.id
-          ? {
-              ...itm,
-              reviewsList: [
-                {
-                  id: review?.id ? review?.id : data?.reviewsList?.length + 1,
-                  isMe: true,
-                  ...values,
-                },
-                ...data?.reviewsList?.filter(item => item?.id !== review?.id),
-              ],
-            }
-          : itm,
+      onSubmitReview(
+        setData,
+        data,
+        values,
+        review,
+        lastData,
+        getLastViewed,
+        viewedData,
+        getFavorites,
+        getLastData,
       );
-      storeDataObject('restaurants', updateList).then(res => {
-        getLastData();
-      });
-      storeDataObject(
-        'favorites',
-        updateList?.filter((itm: RestaurantSchema) => itm?.favorite),
-      ).then(res => {
-        getFavorites();
-      });
-      const updateLastViewed = updateList.filter((itm: RestaurantSchema) =>
-        viewedData?.map((itmm: RestaurantSchema) => itmm?.id).includes(itm.id),
+    },
+  });
+  const formikEditReview = useFormik({
+    initialValues: {
+      review: '',
+      rating: 0,
+    },
+    validationSchema: ReviewSchema,
+    onSubmit: values => {
+      onSubmitReview(
+        setData,
+        data,
+        values,
+        review,
+        lastData,
+        getLastViewed,
+        viewedData,
+        getFavorites,
+        getLastData,
       );
-
-      storeDataObject('lastViewed', updateLastViewed).then(res => {
-        getLastViewed();
-      });
     },
   });
 
@@ -107,7 +96,7 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         <ReviewEditBox
-          formik={formik}
+          formik={formikEditReview}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />
@@ -125,7 +114,7 @@ function RestaurantPage({route}: {route?: any}): React.JSX.Element {
 
           <RestaurantReviewList
             data={data}
-            formik={formik}
+            formik={formikEditReview}
             restaurantData={restaurantData}
             setData={setData}
             setModalVisible={setModalVisible}
